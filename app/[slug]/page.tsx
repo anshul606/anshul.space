@@ -85,7 +85,7 @@ export default function ProjectPage() {
             {/* Display Header */}
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight break-words">
                   {project.name}
                 </h1>
                 <StatusBadge status={project.status} />
