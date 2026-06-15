@@ -1,13 +1,14 @@
 "use client";
+
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Resume", href: "/resume" },
+  { name: "Journal/Home", href: "/" },
   { name: "Achievements", href: "/achievements" },
+  { name: "Resume", href: "/resume" },
 ];
 
 export default function Navbar() {
@@ -15,27 +16,27 @@ export default function Navbar() {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
   // Hide navbar on admin pages
-  if (pathname.startsWith("/admin")) return null;
+  if (pathname?.startsWith("/admin")) return null;
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/";
-    return pathname.startsWith(href);
+    return pathname?.startsWith(href);
   };
 
   return (
     <motion.nav
       className="navbar"
-      initial={{ y: -20, opacity: 0 }}
+      initial={{ y: -10, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="navbar-inner">
-        {/* Logo */}
-        <Link href="/" className="navbar-logo">
+        {/* Logo - Bold display font */}
+        <Link href="/" className="navbar-logo cursor-none">
           ANSHUL<span className="navbar-logo-dot">.</span>
         </Link>
 
-        {/* Desktop Links */}
+        {/* Desktop Links - Monospace and minimalist */}
         <div className="navbar-links-desktop">
           {navLinks.map((link) => {
             const active = isActive(link.href);
@@ -43,14 +44,14 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`navbar-link ${active ? "navbar-link-active" : ""}`}
+                className={`navbar-link cursor-none ${active ? "navbar-link-active" : ""}`}
               >
-                <span className="navbar-link-text">{link.name}</span>
+                <span className="relative z-10">{link.name}</span>
                 {active && (
                   <motion.span
-                    className="navbar-link-pill"
-                    layoutId="navbar-active-pill"
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="navbar-link-dot"
+                    layoutId="navbar-active-dot"
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   />
                 )}
               </Link>
@@ -61,7 +62,7 @@ export default function Navbar() {
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="navbar-mobile-toggle"
+          className="navbar-mobile-toggle cursor-none"
           aria-label="Toggle menu"
         >
           <span className={`navbar-hamburger ${isMobileOpen ? "navbar-hamburger-open" : ""}`}>
@@ -77,10 +78,10 @@ export default function Navbar() {
         {isMobileOpen && (
           <motion.div
             className="navbar-mobile-menu"
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -5 }}
+            transition={{ duration: 0.2 }}
           >
             {navLinks.map((link) => (
               <Link
@@ -98,4 +99,3 @@ export default function Navbar() {
     </motion.nav>
   );
 }
-

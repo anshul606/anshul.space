@@ -38,6 +38,9 @@ function getInitialFormData(
       techStack: project.techStack || [],
       features: project.features || [],
       status: project.status,
+      role: project.role || "",
+      year: project.year || "",
+      system: project.system || "",
     };
   }
   return {
@@ -52,6 +55,9 @@ function getInitialFormData(
     techStack: [],
     features: [],
     status: "wip",
+    role: "",
+    year: "",
+    system: "",
   };
 }
 
@@ -309,6 +315,64 @@ export default function AdminForm({
               </option>
             ))}
           </select>
+        </div>
+      </div>
+
+      {/* Metadata Section */}
+      <div className="space-y-4 pt-4 border-t border-white/10">
+        <h3 className="text-sm font-medium text-[#06b6d4] uppercase tracking-wider">
+          Metadata Specs
+        </h3>
+
+        {/* Role */}
+        <div>
+          <label htmlFor="role" className={labelClasses}>
+            Role
+          </label>
+          <input
+            type="text"
+            id="role"
+            name="role"
+            value={formData.role || ""}
+            onChange={handleChange}
+            placeholder="e.g., Lead Developer, Systems Engineer"
+            className={inputClasses}
+            disabled={isSubmitting}
+          />
+        </div>
+
+        {/* Year */}
+        <div>
+          <label htmlFor="year" className={labelClasses}>
+            Year
+          </label>
+          <input
+            type="text"
+            id="year"
+            name="year"
+            value={formData.year || ""}
+            onChange={handleChange}
+            placeholder="e.g., 2026, 2025"
+            className={inputClasses}
+            disabled={isSubmitting}
+          />
+        </div>
+
+        {/* System */}
+        <div>
+          <label htmlFor="system" className={labelClasses}>
+            System / Environment
+          </label>
+          <input
+            type="text"
+            id="system"
+            name="system"
+            value={formData.system || ""}
+            onChange={handleChange}
+            placeholder="e.g., Web App, Distributed Consensus, Design System"
+            className={inputClasses}
+            disabled={isSubmitting}
+          />
         </div>
       </div>
 

@@ -44,8 +44,8 @@ export function getProjects(): Project[] {
     }
 
     const parsed = JSON.parse(stored);
-    if (!Array.isArray(parsed)) {
-      console.warn("Invalid storage format, resetting to seed");
+    if (!Array.isArray(parsed) || !parsed.some((p: any) => p.id === "project-flow" && p.system)) {
+      console.warn("Outdated storage format or missing resume projects, resetting to seed");
       saveProjects(seedProjects);
       return seedProjects;
     }

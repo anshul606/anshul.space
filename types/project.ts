@@ -13,6 +13,9 @@ export interface Project {
   techStack: string[];
   features?: string[];
   status: ProjectStatus;
+  role?: string;
+  year?: string;
+  system?: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -29,4 +32,7 @@ export interface ProjectFormData {
   techStack: string[];
   features: string[];
   status: ProjectStatus;
+  role?: string;
+  year?: string;
+  system?: string;
 }

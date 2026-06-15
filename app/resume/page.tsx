@@ -35,6 +35,7 @@ export default function ResumePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     async function fetchResume() {
       try {
         const config = await getResumeConfig();
@@ -62,7 +63,7 @@ export default function ResumePage() {
   return (
     <PageTransition>
       <main className="min-h-screen bg-bg-primary">
-        <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8 max-w-5xl">
+        <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
           {/* Header */}
           <motion.header
             className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8"
@@ -70,12 +71,15 @@ export default function ResumePage() {
             initial="hidden"
             animate="visible"
           >
-            <motion.div variants={itemVariants}>
-              <h1 className="text-3xl md:text-4xl font-bold text-text-primary tracking-tight ">
-                Resume
+            <motion.div variants={itemVariants} className="space-y-3">
+              <span className="font-mono text-xs text-accent uppercase tracking-widest block">
+                [ PORTFOLIO / CURRICULUM VITAE ]
+              </span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
+                RESUME<span className="text-accent">.</span>
               </h1>
-              <p className="text-text-secondary text-base md:text-lg mt-2">
-                My professional background and experience
+              <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed pl-4 border-l-2 border-accent/40 max-w-xl">
+                My professional background and system engineering experience.
               </p>
             </motion.div>
 
