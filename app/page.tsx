@@ -54,7 +54,7 @@ export default function Home() {
       <FilmGrain />
 
       <main className="min-h-screen bg-bg-primary text-text-primary">
-        <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
           
           {/* ── HERO SECTION ── */}
           <header className="mb-20 md:mb-32 grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
@@ -62,7 +62,7 @@ export default function Home() {
             {/* Developer Text Content */}
             <div className="md:col-span-8 space-y-6">
               <div className="space-y-3">
-                <span className="font-mono text-xs text-accent uppercase tracking-widest block">
+                <span className="font-mono text-[10px] sm:text-xs text-accent uppercase tracking-wider sm:tracking-widest block">
                   [ PORTFOLIO / JOURNAL ]
                 </span>
                 

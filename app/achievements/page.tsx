@@ -91,7 +91,7 @@ export default function AchievementsPage() {
   return (
     <PageTransition>
       <main className="min-h-screen bg-bg-primary">
-        <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
           {/* Header */}
           <motion.header
             className="mb-8 space-y-3"
@@ -99,10 +99,10 @@ export default function AchievementsPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="font-mono text-xs text-accent uppercase tracking-widest block">
+            <span className="font-mono text-[10px] sm:text-xs text-accent uppercase tracking-wider sm:tracking-widest block">
               [ PORTFOLIO / CREDENTIALS ]
             </span>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
+            <h1 className="text-2xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
               ACHIEVEMENTS<span className="text-accent">.</span>
             </h1>
             <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed pl-4 border-l-2 border-accent/40 max-w-2xl">

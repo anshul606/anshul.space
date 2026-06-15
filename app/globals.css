@@ -391,6 +391,8 @@ body {
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .achievement-card-issuer {
@@ -398,6 +400,8 @@ body {
   font-size: 0.75rem;
   text-transform: uppercase;
   color: var(--text-secondary);
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .achievement-card-date {

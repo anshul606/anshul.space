@@ -63,7 +63,7 @@ export default function ProjectPage() {
       <div className="min-h-screen bg-bg-primary text-text-primary pb-20">
         
         {/* Back navigation header */}
-        <div className="max-w-7xl mx-auto px-6 pt-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
           <Link
             href="/"
             className="inline-flex items-center gap-2 font-mono text-xs text-text-secondary hover:text-accent transition-colors cursor-none"
@@ -73,7 +73,7 @@ export default function ProjectPage() {
         </div>
 
         <motion.article
-          className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
+          className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
