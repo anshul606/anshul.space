@@ -2,6 +2,7 @@
 
 import { useProjects } from "@/context/ProjectContext";
 import { ImageWithFallback } from "@/components/ImageWithFallback";
+import { FilmGrain } from "@/components/FilmGrain";
 import Link from "next/link";
 
 // Social links matching original structure
@@ -50,7 +51,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="film-grain" />
+      <FilmGrain />
 
       <main className="min-h-screen bg-bg-primary text-text-primary">
         <div className="max-w-7xl mx-auto px-6 py-12 md:py-20">

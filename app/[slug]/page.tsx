@@ -8,6 +8,7 @@ import { useProjects } from "@/context/ProjectContext";
 import { ImageWithFallback } from "@/components/ImageWithFallback";
 import { StatusBadge } from "@/components/StatusBadge";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
+import { FilmGrain } from "@/components/FilmGrain";
 import { Project } from "@/types/project";
 
 export default function ProjectPage() {
@@ -57,7 +58,7 @@ export default function ProjectPage() {
 
   return (
     <>
-      <div className="film-grain" />
+      <FilmGrain />
 
       <div className="min-h-screen bg-bg-primary text-text-primary pb-20">
         
