@@ -65,7 +65,7 @@ export default function ResumePage() {
         <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8 max-w-5xl">
           {/* Header */}
           <motion.header
-            className=""
+            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -74,7 +74,7 @@ export default function ResumePage() {
               <h1 className="text-3xl md:text-4xl font-bold text-text-primary tracking-tight ">
                 Resume
               </h1>
-              <p className="text-text-secondary text-base md:text-lg">
+              <p className="text-text-secondary text-base md:text-lg mt-2">
                 My professional background and experience
               </p>
             </motion.div>
@@ -83,6 +83,8 @@ export default function ResumePage() {
             {resumeConfig?.driveLink && (
               <motion.div
                 variants={itemVariants}
+                initial="hidden"
+                animate="visible"
                 className="flex items-center gap-3"
               >
                 {downloadUrl && (
@@ -137,7 +139,7 @@ export default function ResumePage() {
 
           {/* Divider */}
           <motion.div
-            className="h-px bg-linear-to-r from-transparent via-border-subtle to-transparent mb-6"
+            className="h-px bg-linear-to-r from-transparent via-border-subtle to-transparent mb-8"
             initial={{ opacity: 0, scaleX: 0 }}
             animate={{ opacity: 1, scaleX: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
