@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ProjectProvider } from "@/context/ProjectContext";
 import { KeyboardShortcut } from "@/components/KeyboardShortcut";
+import Navbar from "@/components/Navbar";
 import "./globals.css";
 
 const inter = Inter({
@@ -26,6 +27,7 @@ export default function RootLayout({
       >
         <ProjectProvider>
           <KeyboardShortcut />
+          <Navbar />
           {children}
         </ProjectProvider>
       </body>

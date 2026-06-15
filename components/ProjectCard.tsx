@@ -12,9 +12,9 @@ interface ProjectCardProps {
 
 export function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Link href={`/${project.slug}`}>
+    <Link href={`/${project.slug}`} className="h-full flex flex-col">
       <motion.div
-        className="block rounded-xl overflow-hidden bg-[#141414] border border-white/6 hover:border-white/12 transition-colors cursor-pointer"
+        className="flex flex-col h-full rounded-xl overflow-hidden bg-[#141414] border border-white/6 hover:border-white/12 transition-colors cursor-pointer"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         whileHover={{
@@ -36,9 +36,9 @@ export function ProjectCard({ project }: ProjectCardProps) {
         </div>
 
         {/* Content */}
-        <div className="p-4 space-y-3">
+        <div className="p-4 flex-1 flex flex-col">
           {/* Header with favicon and name */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mb-3">
             <div className="w-4 h-4 relative shrink-0">
               <ImageWithFallback
                 src={project.faviconUrl}
@@ -54,31 +54,36 @@ export function ProjectCard({ project }: ProjectCardProps) {
           </div>
 
           {/* Description */}
-          <p className="text-[#a1a1a1] text-sm line-clamp-2">
+          <p className="text-[#a1a1a1] text-sm line-clamp-2 mb-4">
             {project.description}
           </p>
 
-          {/* Tech Stack Preview */}
-          {project.techStack && project.techStack.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {project.techStack.slice(0, 4).map((tech) => (
-                <span
-                  key={tech}
-                  className="px-2 py-0.5 text-xs bg-white/5 text-[#a1a1a1] rounded"
-                >
-                  {tech}
-                </span>
-              ))}
-              {project.techStack.length > 4 && (
-                <span className="px-2 py-0.5 text-xs text-[#6b7280]">
-                  +{project.techStack.length - 4}
-                </span>
-              )}
-            </div>
-          )}
+          {/* Bottom-aligned wrapper */}
+          <div className="mt-auto space-y-4">
+            {/* Tech Stack Preview */}
+            {project.techStack && project.techStack.length > 0 && (
+              <div className="flex flex-wrap gap-1.5">
+                {project.techStack.slice(0, 4).map((tech) => (
+                  <span
+                    key={tech}
+                    className="px-2 py-0.5 text-xs bg-white/5 text-[#a1a1a1] rounded"
+                  >
+                    {tech}
+                  </span>
+                ))}
+                {project.techStack.length > 4 && (
+                  <span className="px-2 py-0.5 text-xs text-[#6b7280]">
+                    +{project.techStack.length - 4}
+                  </span>
+                )}
+              </div>
+            )}
 
-          {/* Status Badge */}
-          <StatusBadge status={project.status} />
+            {/* Status Badge */}
+            <div className="pt-3 border-t border-white/5">
+              <StatusBadge status={project.status} />
+            </div>
+          </div>
         </div>
       </motion.div>
     </Link>

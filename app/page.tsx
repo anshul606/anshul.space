@@ -79,57 +79,77 @@ export default function Home() {
         <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8 max-w-6xl">
           {/* Hero Section */}
           <motion.header
-            className="mb-16 md:mb-20"
+            className="mb-16 md:mb-20 flex flex-col-reverse md:flex-row items-center justify-start gap-10 md:gap-16 lg:gap-24"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
-            {/* Greeting & Name */}
-            <motion.div variants={itemVariants} className="mb-6">
-              <p className="text-accent text-sm font-medium tracking-wide uppercase mb-2">
-                Hey, I&apos;m
-              </p>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary tracking-tight">
-                Anshul
-              </h1>
+            {/* Left Column: Text Content */}
+            <motion.div 
+              className="flex-1 flex flex-col items-start text-left"
+              variants={containerVariants}
+            >
+              {/* Greeting & Name */}
+              <motion.div variants={itemVariants} className="mb-6">
+                <p className="text-accent text-sm font-medium tracking-wide uppercase mb-2">
+                  Hey, I&apos;m
+                </p>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text-primary tracking-tight">
+                  Anshul
+                </h1>
+              </motion.div>
+
+              {/* Title / Role */}
+              <motion.p
+                variants={itemVariants}
+                className="text-xl md:text-2xl text-text-secondary font-medium mb-6"
+              >
+                Full-Stack Developer & Designer
+              </motion.p>
+
+              {/* Bio */}
+              <motion.p
+                variants={itemVariants}
+                className="text-text-secondary text-base md:text-lg max-w-2xl leading-relaxed mb-8"
+              >
+                I build things for the web. Passionate about creating elegant
+                solutions to complex problems, crafting delightful user
+                experiences, and exploring the intersection of design and
+                technology.
+              </motion.p>
+
+              {/* Social Links */}
+              <motion.div
+                variants={itemVariants}
+                className="flex items-center gap-4"
+              >
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-lg bg-bg-tertiary border border-border-subtle hover:border-accent/50 hover:bg-accent/10 text-text-secondary hover:text-accent transition-all duration-200"
+                    aria-label={link.name}
+                  >
+                    {link.icon}
+                  </a>
+                ))}
+              </motion.div>
             </motion.div>
 
-            {/* Title / Role */}
-            <motion.p
-              variants={itemVariants}
-              className="text-xl md:text-2xl text-text-secondary font-medium mb-6"
-            >
-              Full-Stack Developer & Designer
-            </motion.p>
-
-            {/* Bio */}
-            <motion.p
-              variants={itemVariants}
-              className="text-text-secondary text-base md:text-lg max-w-2xl leading-relaxed mb-8"
-            >
-              I build things for the web. Passionate about creating elegant
-              solutions to complex problems, crafting delightful user
-              experiences, and exploring the intersection of design and
-              technology.
-            </motion.p>
-
-            {/* Social Links */}
+            {/* Right Column: Profile Image Blob */}
             <motion.div
               variants={itemVariants}
-              className="flex items-center gap-4"
+              className="flex-shrink-0 flex items-center justify-center md:mr-4"
             >
-              {socialLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2.5 rounded-lg bg-bg-tertiary border border-border-subtle hover:border-accent/50 hover:bg-accent/10 text-text-secondary hover:text-accent transition-all duration-200"
-                  aria-label={link.name}
-                >
-                  {link.icon}
-                </a>
-              ))}
+              <div className="hero-blob">
+                <img
+                  src="/anshul.jpeg"
+                  alt="Anshul Bansal portrait"
+                  className="select-none pointer-events-none"
+                />
+              </div>
             </motion.div>
           </motion.header>
 

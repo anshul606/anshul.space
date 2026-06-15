@@ -1,0 +1,19 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Projects collection rules
+    match /projects/{project} {
+      allow read, write: if true;
+    }
+
+    // Achievements collection rules
+    match /achievements/{achievement} {
+      allow read, write: if true;
+    }
+
+    // siteConfig collection rules (e.g. siteConfig/resume)
+    match /siteConfig/{configId} {
+      allow read, write: if true;
+    }
+  }
+}
