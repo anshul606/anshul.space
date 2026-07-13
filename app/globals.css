@@ -8,18 +8,23 @@
   --bg-elevated: #202026;
 
   /* Typography Text Colors */
-  --text-primary: #f5f5f7;       /* Soft warm white / Cream */
-  --text-secondary: #a09fa6;     /* Warm Silver */
-  --text-muted: #605f66;         /* Charcoal Sepia */
+  --text-primary: #f5f5f7;
+  /* Soft warm white / Cream */
+  --text-secondary: #a09fa6;
+  /* Warm Silver */
+  --text-muted: #605f66;
+  /* Charcoal Sepia */
 
   /* Electric Accent Color */
-  --accent: #ff3344;             /* Crimson Red */
+  --accent: #ff3344;
+  /* Crimson Red */
   --accent-hover: #ff5566;
   --accent-muted: rgba(255, 51, 68, 0.1);
 
   /* Status Colors (Zine style) */
   --status-live: #22c55e;
-  --status-wip: #d97706;         /* Amber */
+  --status-wip: #d97706;
+  /* Amber */
   --status-archived: #605f66;
 
   /* Raw Grid Borders */
@@ -67,6 +72,7 @@ body {
 
 /* Hide default cursor on desktop when CustomCursor is active */
 @media (min-width: 768px) {
+
   body.custom-cursor-active,
   body.custom-cursor-active a,
   body.custom-cursor-active button,
@@ -134,15 +140,43 @@ body {
 }
 
 @keyframes grain {
-  0%, 100% { transform:translate(0, 0); }
-  10% { transform:translate(-5%, -10%); }
-  20% { transform:translate(-15%, 5%); }
-  30% { transform:translate(7%, -25%); }
-  40% { transform:translate(-5%, 25%); }
-  50% { transform:translate(-15%, 10%); }
-  60% { transform:translate(15%, 0%); }
-  75% { transform:translate(-2%, -15%); }
-  90% { transform:translate(2%, 10%); }
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  10% {
+    transform: translate(-5%, -10%);
+  }
+
+  20% {
+    transform: translate(-15%, 5%);
+  }
+
+  30% {
+    transform: translate(7%, -25%);
+  }
+
+  40% {
+    transform: translate(-5%, 25%);
+  }
+
+  50% {
+    transform: translate(-15%, 10%);
+  }
+
+  60% {
+    transform: translate(15%, 0%);
+  }
+
+  75% {
+    transform: translate(-2%, -15%);
+  }
+
+  90% {
+    transform: translate(2%, 10%);
+  }
 }
 
 /* ── Zine Borders & Layout utilities ───────────────────── */
@@ -165,6 +199,7 @@ body {
     border-right: none;
     border-bottom: 1px solid var(--border-subtle);
   }
+
   .zine-cell:last-child {
     border-bottom: none;
   }
@@ -182,12 +217,14 @@ body {
   -webkit-backdrop-filter: blur(12px);
   padding: 0.75rem 1.5rem;
   max-width: 80rem;
-  margin: 1rem 1rem 0; /* Adds breathing room from the edges of screen */
+  margin: 1rem 1rem 0;
+  /* Adds breathing room from the edges of screen */
 }
 
 @media (min-width: 1320px) {
   .navbar {
-    margin: 1.5rem auto 0; /* Center floating on larger screens */
+    margin: 1.5rem auto 0;
+    /* Center floating on larger screens */
   }
 }
 
@@ -664,7 +701,8 @@ body {
   }
 }
 
-.resume-empty-state, .achievement-empty-state {
+.resume-empty-state,
+.achievement-empty-state {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -705,7 +743,9 @@ body {
 }
 
 /* Input Styles for Zine forms */
-input, textarea, select {
+input,
+textarea,
+select {
   background: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
   padding: 0.75rem 1rem;
@@ -714,7 +754,9 @@ input, textarea, select {
   transition: border-color 0.2s;
 }
 
-input:focus, textarea:focus, select:focus {
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--accent);
 }
@@ -733,12 +775,13 @@ input:focus, textarea:focus, select:focus {
   }
 
   .portrait-image-hover {
+    transform: scale(1.5);
     transition: transform 1.0s cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform;
   }
 
   .group:hover .portrait-image-hover {
-    transform: scale(1.025);
+    transform: scale(1.28);
   }
 }
 
@@ -748,17 +791,18 @@ input:focus, textarea:focus, select:focus {
     filter: none;
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  
+
   /* Tap active state for a subtle micro-interaction feedback */
   .group:active .zine-image-hover {
     transform: scale(0.98);
   }
 
   .portrait-image-hover {
+    transform: scale(1.25);
     transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  
+
   .group:active .portrait-image-hover {
-    transform: scale(0.98);
+    transform: scale(1.2);
   }
 }
