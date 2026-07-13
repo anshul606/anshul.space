@@ -731,6 +731,15 @@ input:focus, textarea:focus, select:focus {
     filter: grayscale(0%) sepia(0%) contrast(1) brightness(1);
     transform: scale(1.025);
   }
+
+  .portrait-image-hover {
+    transition: transform 1.0s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+  }
+
+  .group:hover .portrait-image-hover {
+    transform: scale(1.025);
+  }
 }
 
 /* Touch/mobile fallback: full color on mobile or non-hover devices */
@@ -742,6 +751,14 @@ input:focus, textarea:focus, select:focus {
   
   /* Tap active state for a subtle micro-interaction feedback */
   .group:active .zine-image-hover {
+    transform: scale(0.98);
+  }
+
+  .portrait-image-hover {
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  
+  .group:active .portrait-image-hover {
     transform: scale(0.98);
   }
 }

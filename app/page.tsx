@@ -115,10 +115,10 @@ export default function Home() {
                 <img
                   src="/anshul.jpeg"
                   alt="Anshul portrait"
-                  className="w-full h-full object-cover zine-image-hover"
+                  className="w-full h-full object-cover portrait-image-hover"
                 />
                 <span className="absolute bottom-4 right-4 bg-accent text-black font-mono text-[9px] font-bold px-2 py-0.5 select-none uppercase">
-                  [ DEV_STATION ]
+                  [ PROJECTS ]
                 </span>
               </button>
             </div>
