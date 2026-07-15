@@ -211,7 +211,7 @@ body {
   position: sticky;
   top: 1rem;
   z-index: 50;
-  background: rgba(10, 10, 12, 0.9);
+  background: #0a0a0cE6;
   border: 1px solid var(--border-subtle);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
@@ -268,8 +268,72 @@ body {
 }
 
 @keyframes terminal-blink {
-  from, to { background-color: transparent }
-  50% { background-color: var(--accent) }
+
+  from,
+  to {
+    background-color: transparent
+  }
+
+  50% {
+    background-color: var(--accent)
+  }
+}
+
+/* Cloud and Plane Animations */
+@keyframes cloud-slow {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes cloud-medium {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes cloud-fast {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(120vw);
+  }
+}
+
+@keyframes plane-fly {
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  100% {
+    transform: translateX(120vw) translateY(-10px);
+  }
+}
+
+.animate-cloud-slow {
+  animation: cloud-slow 45s linear infinite;
+}
+
+.animate-cloud-medium {
+  animation: cloud-medium 35s linear infinite;
+}
+
+.animate-cloud-fast {
+  animation: cloud-fast 28s linear infinite;
+}
+
+.animate-plane {
+  animation: plane-fly 20s linear infinite;
 }
 
 .navbar-links-desktop {
@@ -477,7 +541,7 @@ body {
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(10, 10, 12, 0.95);
+  background: #0a0a0cF2;
   display: flex;
   align-items: center;
   justify-content: center;

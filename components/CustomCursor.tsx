@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export function CustomCursor() {
-  const [cursorType, setCursorType] = useState<"default" | "pointer" | "play" | "view">("default");
+  const [cursorType, setCursorType] = useState<
+    "default" | "pointer" | "play" | "view"
+  >("default");
   const [isVisible, setIsVisible] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(true);
 
@@ -19,9 +21,10 @@ export function CustomCursor() {
   useEffect(() => {
     // Detect touch device (hide custom cursor on iPads/phones)
     const checkTouchDevice = () => {
-      const isTouch = window.matchMedia("(any-hover: none)").matches || 
-                      ("ontouchstart" in window) || 
-                      (navigator.maxTouchPoints > 0);
+      const isTouch =
+        window.matchMedia("(any-hover: none)").matches ||
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0;
       setIsTouchDevice(isTouch);
       if (!isTouch) {
         document.body.classList.add("custom-cursor-active");
@@ -49,7 +52,9 @@ export function CustomCursor() {
       const target = e.target as HTMLElement;
       if (!target) return;
 
-      const interactive = target.closest('a, button, [role="button"], input, textarea, select, [data-cursor]');
+      const interactive = target.closest(
+        'a, button, [role="button"], input, textarea, select, [data-cursor]',
+      );
       if (interactive) {
         const type = interactive.getAttribute("data-cursor");
         if (type === "play") {
@@ -85,7 +90,7 @@ export function CustomCursor() {
     default: {
       width: 40,
       height: 40,
-      backgroundColor: "transparent",
+      backgroundColor: "rgba(0, 0, 0, 0)",
       borderColor: "rgba(255, 51, 68, 0.4)",
     },
     pointer: {
@@ -105,14 +110,14 @@ export function CustomCursor() {
       height: 80,
       backgroundColor: "rgba(255, 255, 255, 0.95)",
       borderColor: "rgba(255, 255, 255, 1)",
-    }
+    },
   };
 
   const dotVariants = {
     default: { scale: 1, backgroundColor: "#ff3344" },
     pointer: { scale: 0.5, backgroundColor: "#ff3344" },
     play: { scale: 0, backgroundColor: "#ffffff" },
-    view: { scale: 0, backgroundColor: "#000000" }
+    view: { scale: 0, backgroundColor: "#000000" },
   };
 
   return (

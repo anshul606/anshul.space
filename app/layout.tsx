@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
-import { Syne, Space_Mono, Newsreader, Plus_Jakarta_Sans } from "next/font/google";
+import {
+  Syne,
+  Space_Mono,
+  Newsreader,
+  Plus_Jakarta_Sans,
+} from "next/font/google";
 import { ProjectProvider } from "@/context/ProjectContext";
 import { KeyboardShortcut } from "@/components/KeyboardShortcut";
 import Navbar from "@/components/Navbar";
 import { CustomCursor } from "@/components/CustomCursor";
+import { ParticleBackground } from "@/components/ParticleBackground";
 import "./globals.css";
 
 const syne = Syne({
@@ -48,6 +54,7 @@ export default function RootLayout({
         className={`${syne.variable} ${spaceMono.variable} ${newsreader.variable} ${jakarta.variable} font-sans antialiased bg-bg-primary text-text-primary min-h-screen`}
       >
         <ProjectProvider>
+          <ParticleBackground />
           <CustomCursor />
           <KeyboardShortcut />
           <Navbar />

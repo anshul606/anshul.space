@@ -3,9 +3,13 @@
 import { useProjects } from "@/context/ProjectContext";
 import { ImageWithFallback } from "@/components/ImageWithFallback";
 import { FilmGrain } from "@/components/FilmGrain";
+import { HighlightText } from "@/components/HighlightText";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { getGeneralSettings, GeneralSettings } from "@/lib/achievements-firestore";
+import {
+  getGeneralSettings,
+  GeneralSettings,
+} from "@/lib/achievements-firestore";
 import dynamic from "next/dynamic";
 
 const MapComponent = dynamic(() => import("@/components/MapComponent"), {
@@ -60,117 +64,207 @@ const socialLinks = [
 
 const techIcons: Record<string, React.ReactNode> = {
   typescript: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M1.5 1.5v21h21v-21H1.5zm10.74 15.35c-.18.73-.66 1.33-1.46 1.54-1.12.3-2.22-.43-2.42-1.54l1.6-.26c.09.43.34.78.74.83.42.06.84-.19.86-.62.01-.22-.1-.41-.33-.51-.31-.15-.65-.25-.97-.37-.58-.2-1.04-.54-1.27-1.11-.27-.66-.11-1.39.4-1.92.54-.53 1.33-.73 2.05-.53.79.22 1.33.87 1.45 1.66l-1.57.34c-.07-.35-.29-.6-.62-.64-.32-.04-.63.14-.66.44-.02.19.09.35.28.43.33.15.69.25 1.03.37.53.18.96.48 1.18 1 .28.67.14 1.42-.36 1.95zm7.39-4.84h-2.12v6.62h-1.63v-6.62h-2.1v-1.41h5.85v1.41z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M1.5 1.5v21h21v-21H1.5zm10.74 15.35c-.18.73-.66 1.33-1.46 1.54-1.12.3-2.22-.43-2.42-1.54l1.6-.26c.09.43.34.78.74.83.42.06.84-.19.86-.62.01-.22-.1-.41-.33-.51-.31-.15-.65-.25-.97-.37-.58-.2-1.04-.54-1.27-1.11-.27-.66-.11-1.39.4-1.92.54-.53 1.33-.73 2.05-.53.79.22 1.33.87 1.45 1.66l-1.57.34c-.07-.35-.29-.6-.62-.64-.32-.04-.63.14-.66.44-.02.19.09.35.28.43.33.15.69.25 1.03.37.53.18.96.48 1.18 1 .28.67.14 1.42-.36 1.95zm7.39-4.84h-2.12v6.62h-1.63v-6.62h-2.1v-1.41h5.85v1.41z" />
     </svg>
   ),
   "next.js": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.66 18l-5.61-7.25v7.25H10.4V7.57h1.64l5.63 7.27V7.57h1.65V18h-1.66z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.66 18l-5.61-7.25v7.25H10.4V7.57h1.64l5.63 7.27V7.57h1.65V18h-1.66z" />
     </svg>
   ),
   "react.js": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(0 12 12)"/>
-      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(60 12 12)"/>
-      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(120 12 12)"/>
-      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(0 12 12)" />
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(60 12 12)" />
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(120 12 12)" />
+      <circle cx="12" cy="12" r="2" fill="currentColor" />
     </svg>
   ),
   react: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(0 12 12)"/>
-      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(60 12 12)"/>
-      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(120 12 12)"/>
-      <circle cx="12" cy="12" r="2" fill="currentColor"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+    >
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(0 12 12)" />
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(60 12 12)" />
+      <ellipse cx="12" cy="12" rx="11" ry="4.2" transform="rotate(120 12 12)" />
+      <circle cx="12" cy="12" r="2" fill="currentColor" />
     </svg>
   ),
   "tailwind css": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.002 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.002 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z" />
     </svg>
   ),
   tailwind: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.002 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12.001 4.8c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624C13.666 10.618 15.027 12 18.002 12c3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C16.337 6.182 14.976 4.8 12.001 4.8zm-6 7.2c-3.2 0-5.2 1.6-6 4.8 1.2-1.6 2.6-2.2 4.2-1.8.913.228 1.565.89 2.288 1.624 1.177 1.194 2.538 2.576 5.512 2.576 3.2 0 5.2-1.6 6-4.8-1.2 1.6-2.6 2.2-4.2 1.8-.913-.228-1.565-.89-2.288-1.624C10.337 13.382 8.976 12 6.001 12z" />
     </svg>
   ),
   "node.js": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2L2 7.75v11.5L12 22l10-5.75V7.75L12 2zm8.35 15l-8.35 4.8-8.35-4.8V9l8.35-4.8L20.35 9v8z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12 2L2 7.75v11.5L12 22l10-5.75V7.75L12 2zm8.35 15l-8.35 4.8-8.35-4.8V9l8.35-4.8L20.35 9v8z" />
     </svg>
   ),
   node: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2L2 7.75v11.5L12 22l10-5.75V7.75L12 2zm8.35 15l-8.35 4.8-8.35-4.8V9l8.35-4.8L20.35 9v8z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12 2L2 7.75v11.5L12 22l10-5.75V7.75L12 2zm8.35 15l-8.35 4.8-8.35-4.8V9l8.35-4.8L20.35 9v8z" />
     </svg>
   ),
   firebase: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M3.89 15.67L9.58 2.2a.5.5 0 0 1 .93 0l1.7 4-6.32 9.47zm16.22-1.12l-2.02-3.83-2.13-4.03a.5.5 0 0 0-.91.06L12.44 12l7.67 2.55zm-1.12 4.9L3.4 12.98l7.66-1.52 7.93 8z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M3.89 15.67L9.58 2.2a.5.5 0 0 1 .93 0l1.7 4-6.32 9.47zm16.22-1.12l-2.02-3.83-2.13-4.03a.5.5 0 0 0-.91.06L12.44 12l7.67 2.55zm-1.12 4.9L3.4 12.98l7.66-1.52 7.93 8z" />
     </svg>
   ),
   convex: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2L2 7.5v9L12 22l10-5.5v-9L12 2zm0 3.25L18.5 9 12 12.75 5.5 9 12 5.25zm0 13.5L5.5 15v-4.5l6.5 3.75 6.5-3.75V15l-6.5 3.75z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12 2L2 7.5v9L12 22l10-5.5v-9L12 2zm0 3.25L18.5 9 12 12.75 5.5 9 12 5.25zm0 13.5L5.5 15v-4.5l6.5 3.75 6.5-3.75V15l-6.5 3.75z" />
     </svg>
   ),
   rust: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
       <path d="M12 2c-.55 0-1 .45-1 1v1.17c-.75.16-1.46.46-2.11.88l-.83-.83a.996.996 0 1 0-1.41 1.41l.83.83c-.42.65-.72 1.36-.88 2.11H5c-.55 0-1 .45-1 1s.45 1 1 1h1.17c.16.75.46 1.46.88 2.11l-.83.83a.996.996 0 1 0 1.41 1.41l.83-.83c.65.42 1.36.72 2.11.88V21c0 .55.45 1 1 1s1-.45 1-1v-1.17c.75-.16 1.46-.46 2.11-.88l.83.83a.996.996 0 1 0 1.41-1.41l-.83-.83c.42-.65.72-1.36.88-2.11H19c.55 0 1-.45 1-1s-.45-1-1-1h-1.17c-.16-.75-.46-1.46-.88-2.11l.83-.83a.996.996 0 1 0-1.41-1.41l-.83.83c-.65-.42-1.36-.72-2.11-.88V3c0-.55-.45-1-1-1zm0 6c2.21 0 4 1.79 4 4s-1.79 4-4 4-4-1.79-4-4 1.79-4 4-4z" />
     </svg>
   ),
   "three.js": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2L2 22h20L12 2zm0 4.25L18.5 18H5.5L12 6.25z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12 2L2 22h20L12 2zm0 4.25L18.5 18H5.5L12 6.25z" />
     </svg>
   ),
   three: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2L2 22h20L12 2zm0 4.25L18.5 18H5.5L12 6.25z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M12 2L2 22h20L12 2zm0 4.25L18.5 18H5.5L12 6.25z" />
     </svg>
   ),
   "git / github": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M2.6 10.5l9.5-9.5c.8-.8 2-.8 2.8 0l9.5 9.5c.8.8.8 2 0 2.8L14.9 22.8c-.8.8-2 .8-2.8 0L2.6 13.3c-.8-.8-.8-2 0-2.8zM12 15.6c-.6 0-1-.4-1-1v-4.8c0-.6.4-1 1-1s1 .4 1 1v4.8c0 .6-.4 1-1 1zm0 2.6c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6zm4.8-4.8c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M2.6 10.5l9.5-9.5c.8-.8 2-.8 2.8 0l9.5 9.5c.8.8.8 2 0 2.8L14.9 22.8c-.8.8-2 .8-2.8 0L2.6 13.3c-.8-.8-.8-2 0-2.8zM12 15.6c-.6 0-1-.4-1-1v-4.8c0-.6.4-1 1-1s1 .4 1 1v4.8c0 .6-.4 1-1 1zm0 2.6c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6zm4.8-4.8c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6z" />
     </svg>
   ),
   git: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M2.6 10.5l9.5-9.5c.8-.8 2-.8 2.8 0l9.5 9.5c.8.8.8 2 0 2.8L14.9 22.8c-.8.8-2 .8-2.8 0L2.6 13.3c-.8-.8-.8-2 0-2.8zM12 15.6c-.6 0-1-.4-1-1v-4.8c0-.6.4-1 1-1s1 .4 1 1v4.8c0 .6-.4 1-1 1zm0 2.6c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6zm4.8-4.8c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M2.6 10.5l9.5-9.5c.8-.8 2-.8 2.8 0l9.5 9.5c.8.8.8 2 0 2.8L14.9 22.8c-.8.8-2 .8-2.8 0L2.6 13.3c-.8-.8-.8-2 0-2.8zM12 15.6c-.6 0-1-.4-1-1v-4.8c0-.6.4-1 1-1s1 .4 1 1v4.8c0 .6-.4 1-1 1zm0 2.6c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6zm4.8-4.8c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6z" />
     </svg>
   ),
   github: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M2.6 10.5l9.5-9.5c.8-.8 2-.8 2.8 0l9.5 9.5c.8.8.8 2 0 2.8L14.9 22.8c-.8.8-2 .8-2.8 0L2.6 13.3c-.8-.8-.8-2 0-2.8zM12 15.6c-.6 0-1-.4-1-1v-4.8c0-.6.4-1 1-1s1 .4 1 1v4.8c0 .6-.4 1-1 1zm0 2.6c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6zm4.8-4.8c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M2.6 10.5l9.5-9.5c.8-.8 2-.8 2.8 0l9.5 9.5c.8.8.8 2 0 2.8L14.9 22.8c-.8.8-2 .8-2.8 0L2.6 13.3c-.8-.8-.8-2 0-2.8zM12 15.6c-.6 0-1-.4-1-1v-4.8c0-.6.4-1 1-1s1 .4 1 1v4.8c0 .6-.4 1-1 1zm0 2.6c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6zm4.8-4.8c.9 0 1.6-.7 1.6-1.6s-.7-1.6-1.6-1.6-1.6.7-1.6 1.6.7 1.6 1.6 1.6z" />
     </svg>
   ),
   "html 5": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3H16l-.2-2.3H7l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2h-2.3l.3 4.3 5.1 1.4 5.1-1.4.7-7.9z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3H16l-.2-2.3H7l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2h-2.3l.3 4.3 5.1 1.4 5.1-1.4.7-7.9z" />
     </svg>
   ),
   html: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3H16l-.2-2.3H7l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2h-2.3l.3 4.3 5.1 1.4 5.1-1.4.7-7.9z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3H16l-.2-2.3H7l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2h-2.3l.3 4.3 5.1 1.4 5.1-1.4.7-7.9z" />
     </svg>
   ),
   "css 3": (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3h6.8l.2-2.3H7.2l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2H5.1l.3 4.3 6.6 1.8 6.6-1.8.7-7.9z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3h6.8l.2-2.3H7.2l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2H5.1l.3 4.3 6.6 1.8 6.6-1.8.7-7.9z" />
     </svg>
   ),
   css: (
-    <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3h6.8l.2-2.3H7.2l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2H5.1l.3 4.3 6.6 1.8 6.6-1.8.7-7.9z"/>
+    <svg
+      className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+    >
+      <path d="M1.5 0h21l-1.9 19.3L12 24l-8.6-4.7L1.5 0zm14 11H9.4l-.2-2.3h6.8l.2-2.3H7.2l.6 6.8h5.6l-.3 3.3-2.9.8-2.9-.8-.2-2H5.1l.3 4.3 6.6 1.8 6.6-1.8.7-7.9z" />
     </svg>
-  )
+  ),
 };
 
 const defaultFallbackIcon = (
-  <svg className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <polyline points="16 18 22 12 16 6"/>
-    <polyline points="8 6 2 12 8 18"/>
+  <svg
+    className="w-8 h-8 text-text-secondary group-hover:text-accent transition-colors"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <polyline points="16 18 22 12 16 6" />
+    <polyline points="8 6 2 12 8 18" />
   </svg>
 );
 
@@ -186,7 +280,7 @@ const DEFAULT_TECH = [
   "Three.js",
   "Git / GitHub",
   "HTML 5",
-  "CSS 3"
+  "CSS 3",
 ];
 
 interface TechStackItem {
@@ -195,7 +289,10 @@ interface TechStackItem {
 }
 
 function TechStackGrid({ activeTech }: { activeTech?: TechStackItem[] }) {
-  const techs: TechStackItem[] = activeTech && activeTech.length > 0 ? activeTech : DEFAULT_TECH.map(name => ({ name }));
+  const techs: TechStackItem[] =
+    activeTech && activeTech.length > 0
+      ? activeTech
+      : DEFAULT_TECH.map((name) => ({ name }));
 
   return (
     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5 mt-2">
@@ -204,10 +301,19 @@ function TechStackGrid({ activeTech }: { activeTech?: TechStackItem[] }) {
         let icon: React.ReactNode;
 
         if (tech.iconSvg) {
-          icon = <div className="w-6 h-6 flex items-center justify-center tech-icon-wrapper" dangerouslySetInnerHTML={{ __html: tech.iconSvg }} />;
+          icon = (
+            <div
+              className="w-6 h-6 flex items-center justify-center tech-icon-wrapper"
+              dangerouslySetInnerHTML={{ __html: tech.iconSvg }}
+            />
+          );
         } else {
           const preDefinedIcon = techIcons[key] || defaultFallbackIcon;
-          icon = <div className="w-6 h-6 flex items-center justify-center tech-icon-wrapper">{preDefinedIcon}</div>;
+          icon = (
+            <div className="w-6 h-6 flex items-center justify-center tech-icon-wrapper">
+              {preDefinedIcon}
+            </div>
+          );
         }
 
         return (
@@ -250,23 +356,21 @@ export default function Home() {
 
       <main className="min-h-screen bg-bg-primary text-text-primary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
-          
           {/* ── HERO SECTION ── */}
           <header className="mb-16 md:mb-24 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
-            
             {/* Developer Text Content */}
             <div className="md:col-span-8 space-y-6">
               <div className="space-y-3">
                 <span className="font-mono text-[10px] sm:text-xs text-accent uppercase tracking-wider sm:tracking-widest block">
                   [ PORTFOLIO / JOURNAL ]
                 </span>
-                
+
                 {/* Greeting & Name */}
                 <h1 className="text-5xl sm:text-6xl md:text-6xl font-extrabold font-display leading-[0.8] tracking-tighter uppercase select-none">
                   ANSHUL
                   <span className="text-accent">.</span>
                 </h1>
-                
+
                 {/* Title / Role */}
                 <p className="font-mono text-sm sm:text-base text-accent tracking-wider uppercase">
                   Full-Stack Developer & Designer
@@ -288,9 +392,15 @@ export default function Home() {
 
               {/* Bio Description */}
               <div className="max-w-2xl border-l-2 border-accent/20 pl-6 py-1">
-                <p className="font-sans text-text-secondary text-base md:text-lg leading-relaxed">
-                  I'm a full-stack developer with 2 years of experience building fast, scalable web applications with clean design and great user experiences.
-                </p>
+                <HighlightText
+                  text="I'm a full-stack developer with 2 years of experience building fast, scalable web applications with clean design and great user experiences."
+                  highlights={[
+                    "full-stack developer",
+                    "2 years of experience",
+                    "scalable",
+                    "clean design",
+                  ]}
+                />
               </div>
 
               {/* Social Links List */}
@@ -312,9 +422,11 @@ export default function Home() {
 
             {/* Profile Frame with Raw Border Grid Lines */}
             <div className="md:col-span-4 flex justify-end">
-              <button 
+              <button
                 onClick={() => {
-                  document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" });
+                  document
+                    .getElementById("projects")
+                    ?.scrollIntoView({ behavior: "smooth" });
                 }}
                 className="relative group border border-white/10 p-2 bg-white/[0.01] overflow-hidden w-full max-w-[220px] aspect-square text-left cursor-none focus:outline-none"
                 data-cursor="view"
@@ -337,7 +449,7 @@ export default function Home() {
             <div className="font-mono text-xs text-text-muted mb-6 tracking-wider uppercase">
               [ 01 / TECH STACK ]
             </div>
-            
+
             <div className="p-8 border border-white/8 bg-white/[0.01]">
               <h3 className="font-display text-xl font-bold uppercase text-text-primary mb-4">
                 TECH STACK & CAPABILITIES
@@ -351,7 +463,7 @@ export default function Home() {
             <div className="font-mono text-xs text-text-muted mb-6 tracking-wider uppercase">
               [ 02 / BACKGROUND & EDUCATION ]
             </div>
-            
+
             <div className="border border-white/8 bg-white/[0.01] overflow-hidden">
               <MapComponent
                 locationName={settings?.locationName || "Jaipur, India"}
@@ -364,7 +476,10 @@ export default function Home() {
                   BACKGROUND & EDUCATION
                 </h3>
                 <p className="text-sm text-text-secondary leading-relaxed max-w-4xl">
-                  B.Tech in Computer Science & Engineering student at LNMIIT Jaipur (2025 – 2029). Co-organizer for Google Developer Group (GDG) Jaipur and active hackathon builder, focused on modern full-stack systems and developer productivity tools.
+                  B.Tech in Computer Science & Engineering student at LNMIIT
+                  Jaipur (2025 – 2029). Co-organizer for Google Developer Group
+                  (GDG) Jaipur and active hackathon builder, focused on modern
+                  full-stack systems and developer productivity tools.
                 </p>
               </div>
 
@@ -379,7 +494,7 @@ export default function Home() {
                     Current Active Engagement
                   </span>
                 </div>
-                
+
                 <div className="flex flex-wrap gap-3">
                   <span className="font-mono text-xs border border-white/10 px-3 py-1.5 bg-white/[0.02] text-[#f5f5f7] rounded-md tracking-wider uppercase select-none hover:border-accent/40 transition-colors">
                     GDG Jaipur Organizer
@@ -426,11 +541,15 @@ export default function Home() {
                       {/* Header Spec Tag */}
                       <div className="flex justify-between px-4 py-2.5 border-b border-white/8 font-mono text-[9px] text-text-muted">
                         <span>[ PATH: 0{idx + 1} ]</span>
-                        <span className="text-accent uppercase tracking-wider">{project.status}</span>
+                        <span className="text-accent uppercase tracking-wider">
+                          {project.status}
+                        </span>
                       </div>
 
                       {/* Image Block */}
-                      <div className={`relative w-full bg-[#000] overflow-hidden ${isLarge ? "aspect-video md:aspect-[21/9]" : "aspect-video"}`}>
+                      <div
+                        className={`relative w-full bg-[#000] overflow-hidden ${isLarge ? "aspect-video md:aspect-[21/9]" : "aspect-video"}`}
+                      >
                         <ImageWithFallback
                           src={project.imageUrl}
                           alt={project.name}
@@ -446,7 +565,13 @@ export default function Home() {
                         <div className="space-y-2">
                           <div className="flex justify-between font-mono text-[9px] text-text-secondary uppercase">
                             <span>SYSTEM: WEB LABS</span>
-                            <span>UPDATED: {new Date(project.updatedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}</span>
+                            <span>
+                              UPDATED:{" "}
+                              {new Date(project.updatedAt).toLocaleDateString(
+                                undefined,
+                                { year: "numeric", month: "short" },
+                              )}
+                            </span>
                           </div>
                           <h3 className="font-display text-xl font-extrabold tracking-tight uppercase group-hover:text-accent transition-colors">
                             {project.name}
@@ -460,7 +585,10 @@ export default function Home() {
                         <div className="pt-4 mt-auto border-t border-white/5 flex justify-between items-center">
                           <div className="flex flex-wrap gap-1.5">
                             {project.techStack.slice(0, 3).map((tech) => (
-                              <span key={tech} className="font-mono text-[9px] border border-white/10 px-2 py-0.5 text-text-muted">
+                              <span
+                                key={tech}
+                                className="font-mono text-[9px] border border-white/10 px-2 py-0.5 text-text-muted"
+                              >
                                 {tech}
                               </span>
                             ))}
@@ -476,8 +604,6 @@ export default function Home() {
               </div>
             )}
           </section>
-
-
         </div>
       </main>
     </>

@@ -14,7 +14,12 @@ interface MapComponentProps {
   timezone: string;
 }
 
-export default function MapComponent({ locationName, lat, lng, timezone }: MapComponentProps) {
+export default function MapComponent({
+  locationName,
+  lat,
+  lng,
+  timezone,
+}: MapComponentProps) {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maptiler.Map | null>(null);
   const markerRef = useRef<maptiler.Marker | null>(null);
@@ -24,7 +29,7 @@ export default function MapComponent({ locationName, lat, lng, timezone }: MapCo
   useEffect(() => {
     const updateTime = () => setTime(new Date());
     updateTime();
-    const interval = setInterval(updateTime, 1000); // Update every second to allow a ticking/blinking colon
+    const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -40,7 +45,6 @@ export default function MapComponent({ locationName, lat, lng, timezone }: MapCo
         timeZoneName: "short",
       });
     } catch (e) {
-      // Fallback to local time if timezone ID is invalid
       return time.toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
@@ -61,12 +65,12 @@ export default function MapComponent({ locationName, lat, lng, timezone }: MapCo
     }
 
     try {
-      // Create Map
+      // Create Map with dark style - using reference string to avoid projection issues
       const map = new maptiler.Map({
         container: mapContainerRef.current,
-        style: maptiler.MapStyle.BASIC.DARK,
+        style: "dataviz-dark", // Simple reference style
         center: [lng, lat],
-        zoom: 2.5, // Start zoomed out
+        zoom: 2.5,
         navigationControl: false,
         geolocateControl: false,
         interactive: true,
@@ -76,14 +80,16 @@ export default function MapComponent({ locationName, lat, lng, timezone }: MapCo
 
       // Pulse Marker
       const markerEl = document.createElement("div");
-      markerEl.className = "relative flex h-3.5 w-3.5 items-center justify-center";
-      
+      markerEl.className =
+        "relative flex h-3.5 w-3.5 items-center justify-center";
+
       const ping = document.createElement("span");
-      ping.className = "absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75";
-      
+      ping.className =
+        "absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-75";
+
       const dot = document.createElement("span");
       dot.className = "relative inline-flex h-2.5 w-2.5 rounded-full bg-accent";
-      
+
       markerEl.appendChild(ping);
       markerEl.appendChild(dot);
 
@@ -127,8 +133,8 @@ export default function MapComponent({ locationName, lat, lng, timezone }: MapCo
       {/* Map Canvas */}
       <div ref={mapContainerRef} className="absolute inset-0 w-full h-full" />
 
-      {/* Cinematic Fog / Bottom Gradient Fade */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-bg-secondary to-transparent z-10" />
+      {/* Bottom Gradient Fade - Stronger to hide logo */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-bg-secondary via-bg-secondary/80 to-transparent z-10" />
 
       {/* Clock HUD Overlay */}
       <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
@@ -139,7 +145,11 @@ export default function MapComponent({ locationName, lat, lng, timezone }: MapCo
             {timeParts.map((char, i) => (
               <span
                 key={i}
-                className={char === ":" ? "animate-pulse duration-1000 opacity-60 inline-block px-[1px]" : ""}
+                className={
+                  char === ":"
+                    ? "animate-pulse duration-1000 opacity-60 inline-block px-[1px]"
+                    : ""
+                }
               >
                 {char}
               </span>

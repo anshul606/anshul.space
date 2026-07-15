@@ -12,6 +12,7 @@ interface ImageWithFallbackProps {
   className?: string;
   fallbackType?: "thumbnail" | "favicon";
   projectName?: string;
+  sizes?: string;
 }
 
 function ThumbnailFallback() {
@@ -52,6 +53,7 @@ export function ImageWithFallback({
   className = "",
   fallbackType = "thumbnail",
   projectName,
+  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
 }: ImageWithFallbackProps) {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -76,6 +78,7 @@ export function ImageWithFallback({
         width={fill ? undefined : width}
         height={fill ? undefined : height}
         fill={fill}
+        sizes={fill ? sizes : undefined}
         className={`${className} ${
           isLoading ? "opacity-0" : "opacity-100"
         } transition-opacity duration-300`}
