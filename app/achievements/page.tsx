@@ -102,7 +102,7 @@ export default function AchievementsPage() {
             <span className="font-mono text-[10px] sm:text-xs text-accent uppercase tracking-wider sm:tracking-widest block">
               [ PORTFOLIO / CREDENTIALS ]
             </span>
-            <h1 className="text-2xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
               ACHIEVEMENTS<span className="text-accent">.</span>
             </h1>
             <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed pl-4 border-l-2 border-accent/40 max-w-2xl">

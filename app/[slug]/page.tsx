@@ -73,19 +73,19 @@ export default function ProjectPage() {
         </div>
 
         <motion.article
-          className="max-w-7xl mx-auto px-4 sm:px-6 py-8 grid grid-cols-1 lg:grid-cols-12 gap-10 items-start"
+          className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8"
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           
           {/* Main Title & Image Frame */}
-          <div className="lg:col-span-8 space-y-8">
+            <div className="space-y-8">
             
             {/* Display Header */}
             <div className="space-y-4">
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-4">
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight break-words">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold font-display leading-[0.9] uppercase tracking-tight break-words">
                   {project.name}
                 </h1>
                 <StatusBadge status={project.status} />
@@ -153,8 +153,8 @@ export default function ProjectPage() {
 
           </div>
 
-          {/* Sidebar Specs Panel */}
-          <div className="lg:col-span-4 space-y-6">
+            {/* Sidebar Specs Panel */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             
             {/* Editorial Metadata Table */}
             <div className="border border-white/10 p-6 bg-white/[0.01] space-y-6">
@@ -223,7 +223,7 @@ export default function ProjectPage() {
               </div>
             )}
 
-          </div>
+            </div>
 
         </motion.article>
       </div>

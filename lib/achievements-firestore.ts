@@ -125,3 +125,70 @@ export async function updateResumeConfig(driveLink: string): Promise<void> {
     throw new Error("Failed to update resume config");
   }
 }
+
+export interface GeneralSettings {
+  availableForWork: boolean;
+  techStack?: { name: string; iconSvg?: string }[];
+  locationName?: string;
+  locationLat?: number;
+  locationLng?: number;
+  timezone?: string;
+}
+
+export async function getGeneralSettings(): Promise<GeneralSettings | null> {
+  try {
+    const docRef = doc(db, SITE_CONFIG_COLLECTION, "general");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const rawTechStack = data.techStack || [];
+      const normalizedTechStack = rawTechStack
+        .filter((item: any) => item !== null && item !== undefined)
+        .map((item: any) => {
+          if (typeof item === "string") {
+            return { name: item };
+          }
+          return item;
+        })
+        .filter((item: any) => item && typeof item === "object" && typeof item.name === "string");
+      return {
+        availableForWork: data.availableForWork || false,
+        techStack: normalizedTechStack,
+        locationName: data.locationName || "Jaipur, India",
+        locationLat: typeof data.locationLat === "number" ? data.locationLat : 26.9124,
+        locationLng: typeof data.locationLng === "number" ? data.locationLng : 75.7873,
+        timezone: data.timezone || "Asia/Kolkata",
+      };
+    }
+    return null;
+  } catch (error) {
+    console.error("Firestore read error (general settings):", error);
+    throw new Error("Failed to fetch general settings");
+  }
+}
+
+export async function updateGeneralSettings(
+  availableForWork: boolean,
+  techStack: { name: string; iconSvg?: string }[],
+  locationName?: string,
+  locationLat?: number,
+  locationLng?: number,
+  timezone?: string
+): Promise<void> {
+  try {
+    const docRef = doc(db, SITE_CONFIG_COLLECTION, "general");
+    await setDoc(docRef, {
+      availableForWork,
+      techStack,
+      locationName: locationName || "Jaipur, India",
+      locationLat: typeof locationLat === "number" ? locationLat : 26.9124,
+      locationLng: typeof locationLng === "number" ? locationLng : 75.7873,
+      timezone: timezone || "Asia/Kolkata",
+      updatedAt: new Date().toISOString(),
+    });
+  } catch (error) {
+    console.error("Firestore write error (general settings):", error);
+    throw new Error("Failed to update general settings");
+  }
+}

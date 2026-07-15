@@ -12,9 +12,9 @@ export function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // Smooth spring physics for the trailing ring
-  const ringX = useSpring(cursorX, { stiffness: 220, damping: 24, mass: 0.6 });
-  const ringY = useSpring(cursorY, { stiffness: 220, damping: 24, mass: 0.6 });
+  // Smooth spring physics for the trailing ring (tuned for snappier follow speed)
+  const ringX = useSpring(cursorX, { stiffness: 380, damping: 28, mass: 0.4 });
+  const ringY = useSpring(cursorY, { stiffness: 380, damping: 28, mass: 0.4 });
 
   useEffect(() => {
     // Detect touch device (hide custom cursor on iPads/phones)

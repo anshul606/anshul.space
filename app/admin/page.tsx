@@ -16,11 +16,12 @@ import AdminProjectList from "@/components/AdminProjectList";
 import AdminResumeForm from "@/components/AdminResumeForm";
 import AdminAchievementForm from "@/components/AdminAchievementForm";
 import AdminAchievementList from "@/components/AdminAchievementList";
+import AdminSettingsForm from "@/components/AdminSettingsForm";
 import { PageTransition } from "@/components/PageTransition";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { hasAdminAccess } from "@/lib/admin-access";
 
-type AdminTab = "projects" | "resume" | "achievements";
+type AdminTab = "projects" | "resume" | "achievements" | "settings";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -184,6 +185,7 @@ export default function AdminPage() {
     { key: "projects", label: "Projects" },
     { key: "resume", label: "Resume" },
     { key: "achievements", label: "Achievements" },
+    { key: "settings", label: "Settings" },
   ];
 
   return (
@@ -329,6 +331,13 @@ export default function AdminPage() {
                 />
               </div>
             </>
+          )}
+
+          {/* ── Settings Tab ──────────────────────────────────── */}
+          {activeTab === "settings" && (
+            <div className="p-6 bg-[#141414] border border-[rgba(255,255,255,0.06)] rounded-xl">
+              <AdminSettingsForm />
+            </div>
           )}
         </div>
       </div>

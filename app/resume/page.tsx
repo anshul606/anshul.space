@@ -66,7 +66,7 @@ export default function ResumePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 md:py-20">
           {/* Header */}
           <motion.header
-            className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8"
+            className="flex flex-col gap-6 mb-8"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
@@ -75,7 +75,7 @@ export default function ResumePage() {
               <span className="font-mono text-xs text-accent uppercase tracking-widest block">
                 [ PORTFOLIO / CURRICULUM VITAE ]
               </span>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
+              <h1 className="text-4xl sm:text-5xl font-extrabold font-display leading-[0.9] uppercase tracking-tight">
                 RESUME<span className="text-accent">.</span>
               </h1>
               <p className="font-sans text-text-secondary text-sm md:text-base leading-relaxed pl-4 border-l-2 border-accent/40 max-w-xl">

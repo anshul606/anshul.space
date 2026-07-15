@@ -216,14 +216,14 @@ body {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   padding: 0.75rem 1.5rem;
-  max-width: 80rem;
+  max-width: 48rem;
   margin: 1rem 1rem 0;
   /* Adds breathing room from the edges of screen */
 }
 
-@media (min-width: 1320px) {
+@media (min-width: 800px) {
   .navbar {
-    margin: 1.5rem auto 0;
+    margin: 1rem auto 0;
     /* Center floating on larger screens */
   }
 }
@@ -246,6 +246,30 @@ body {
 
 .navbar-logo-dot {
   color: var(--accent);
+}
+
+.navbar-logo-terminal {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 7px;
+  height: 14px;
+  background-color: var(--accent);
+  animation: terminal-blink 1s step-end infinite;
+}
+
+@keyframes terminal-blink {
+  from, to { background-color: transparent }
+  50% { background-color: var(--accent) }
 }
 
 .navbar-links-desktop {
@@ -368,8 +392,8 @@ body {
 
 .achievement-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.25rem;
 }
 
 .achievement-card {
@@ -419,12 +443,12 @@ body {
 }
 
 .achievement-card-body {
-  padding: 1.25rem;
+  padding: 1rem;
 }
 
 .achievement-card-title {
   font-family: var(--font-display);
-  font-size: 1rem;
+  font-size: 0.875rem;
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 0.25rem;
@@ -654,10 +678,10 @@ body {
 .resume-action-btn {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
+  gap: 0.4rem;
+  padding: 0.6rem 1.1rem;
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   border: 1px solid var(--border-subtle);
   transition: all 0.2s;
@@ -805,4 +829,15 @@ select:focus {
   .group:active .portrait-image-hover {
     transform: scale(1.2);
   }
+}
+
+/* ── Tech Icon Resizing ──────────────────────────────────── */
+.tech-icon-wrapper svg {
+  width: 1.5rem !important;
+  height: 1.5rem !important;
+}
+
+/* ── Compress Page Layout Horizontally ──────────────────── */
+.max-w-7xl {
+  max-width: 48rem !important;
 }

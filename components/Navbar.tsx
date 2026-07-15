@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,6 +14,89 @@ const navLinks = [
 export default function Navbar() {
   const pathname = usePathname();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
+  const [displayText, setDisplayText] = useState("./");
+  const [targetText, setTargetText] = useState("./");
+
+  // Track sections via IntersectionObserver on homepage scroll
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-25% 0px -55% 0px", // Band focusing on the upper-middle viewport
+      threshold: 0.05,
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    const techSec = document.getElementById("tech");
+    const bgSec = document.getElementById("background");
+    const projSec = document.getElementById("projects");
+
+    if (techSec) observer.observe(techSec);
+    if (bgSec) observer.observe(bgSec);
+    if (projSec) observer.observe(projSec);
+
+    const handleScroll = () => {
+      if (window.scrollY < 100) {
+        setActiveSection("home");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [pathname]);
+
+  // Determine typewriter targetText
+  useEffect(() => {
+    if (pathname !== "/") {
+      const segment = pathname.split("/").filter(Boolean)[0] || "";
+      setTargetText(`./${segment}`);
+    } else {
+      if (activeSection === "home") {
+        setTargetText("./");
+      } else {
+        setTargetText(`./${activeSection}`);
+      }
+    }
+  }, [pathname, activeSection]);
+
+  // Run character typing/deleting typewriter transitions
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    const animate = () => {
+      if (displayText === targetText) return;
+
+      if (targetText.startsWith(displayText)) {
+        const nextChar = targetText[displayText.length];
+        timer = setTimeout(() => {
+          setDisplayText((prev) => prev + nextChar);
+        }, 55);
+      } else {
+        timer = setTimeout(() => {
+          setDisplayText((prev) => prev.slice(0, -1));
+        }, 25);
+      }
+    };
+
+    animate();
+
+    return () => clearTimeout(timer);
+  }, [displayText, targetText]);
 
   // Hide navbar on admin pages
   if (pathname?.startsWith("/admin")) return null;
@@ -31,9 +114,10 @@ export default function Navbar() {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="navbar-inner">
-        {/* Logo - Bold display font */}
-        <Link href="/" className="navbar-logo cursor-none">
-          ANSHUL<span className="navbar-logo-dot">.</span>
+        {/* Logo - Terminal prompt style with typewriter scroll typing */}
+        <Link href="/" className="navbar-logo-terminal cursor-none">
+          <span>{displayText}</span>
+          <span className="terminal-cursor" />
         </Link>
 
         {/* Desktop Links - Monospace and minimalist */}
