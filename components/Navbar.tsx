@@ -9,6 +9,7 @@ const navLinks = [
   { name: "Journal/Home", href: "/" },
   { name: "Achievements", href: "/achievements" },
   { name: "Resume", href: "/resume" },
+  { name: "Hire Me", href: "/hire-me" },
 ];
 
 export default function Navbar() {
@@ -36,7 +37,10 @@ export default function Navbar() {
       });
     };
 
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
 
     const techSec = document.getElementById("tech");
     const bgSec = document.getElementById("background");
@@ -77,7 +81,7 @@ export default function Navbar() {
   // Run character typing/deleting typewriter transitions
   useEffect(() => {
     let timer: NodeJS.Timeout;
-    
+
     const animate = () => {
       if (displayText === targetText) return;
 
@@ -149,7 +153,9 @@ export default function Navbar() {
           className="navbar-mobile-toggle"
           aria-label="Toggle menu"
         >
-          <span className={`navbar-hamburger ${isMobileOpen ? "navbar-hamburger-open" : ""}`}>
+          <span
+            className={`navbar-hamburger ${isMobileOpen ? "navbar-hamburger-open" : ""}`}
+          >
             <span />
             <span />
             <span />

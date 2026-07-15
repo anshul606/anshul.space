@@ -1,4 +1,5 @@
 import { ProjectFormData } from "@/types/project";
+import { ContactFormData, ContactFormErrors } from "@/types/contact";
 
 export interface ValidationErrors {
   name?: string;
@@ -181,5 +182,61 @@ export function validateTimelineForm(data: {
 export function hasTimelineValidationErrors(
   errors: TimelineValidationErrors,
 ): boolean {
+  return Object.keys(errors).length > 0;
+}
+
+/**
+ * Validates if a string is a valid email format.
+ * Uses standard email regex pattern.
+ */
+export function isValidEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+/**
+ * Validates a contact form and returns validation errors.
+ * Returns an empty object if all validations pass.
+ *
+ * Validation rules:
+ * - name: required, min 1 character
+ * - email: required, valid email format
+ * - subject: required, min 1 character
+ * - message: required, min 10 characters
+ */
+export function validateContactForm(data: ContactFormData): ContactFormErrors {
+  const errors: ContactFormErrors = {};
+
+  // Required field: name (min 1 character)
+  if (isEmptyOrWhitespace(data.name)) {
+    errors.name = "Name is required";
+  }
+
+  // Required field: email (valid format)
+  if (isEmptyOrWhitespace(data.email)) {
+    errors.email = "Email is required";
+  } else if (!isValidEmail(data.email)) {
+    errors.email = "Please enter a valid email address";
+  }
+
+  // Required field: subject (min 1 character)
+  if (isEmptyOrWhitespace(data.subject)) {
+    errors.subject = "Subject is required";
+  }
+
+  // Required field: message (min 10 characters)
+  if (isEmptyOrWhitespace(data.message)) {
+    errors.message = "Message is required";
+  } else if (data.message.trim().length < 10) {
+    errors.message = "Message must be at least 10 characters";
+  }
+
+  return errors;
+}
+
+/**
+ * Checks if the contact form has any validation errors.
+ */
+export function hasContactValidationErrors(errors: ContactFormErrors): boolean {
   return Object.keys(errors).length > 0;
 }
