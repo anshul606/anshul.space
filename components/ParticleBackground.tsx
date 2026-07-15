@@ -29,10 +29,14 @@ export function ParticleBackground() {
       size: number;
       opacity: number;
       fadeDirection: number;
+      canvasWidth: number;
+      canvasHeight: number;
 
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+      constructor(canvasWidth: number, canvasHeight: number) {
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+        this.x = Math.random() * canvasWidth;
+        this.y = Math.random() * canvasHeight;
         this.vx = (Math.random() - 0.5) * 0.3; // Slightly faster movement
         this.vy = (Math.random() - 0.5) * 0.3;
         this.size = Math.random() * 1.5 + 1; // Bigger: 1-2.5px
@@ -51,10 +55,10 @@ export function ParticleBackground() {
         }
 
         // Wrap around screen edges
-        if (this.x < 0) this.x = canvas.width;
-        if (this.x > canvas.width) this.x = 0;
-        if (this.y < 0) this.y = canvas.height;
-        if (this.y > canvas.height) this.y = 0;
+        if (this.x < 0) this.x = this.canvasWidth;
+        if (this.x > this.canvasWidth) this.x = 0;
+        if (this.y < 0) this.y = this.canvasHeight;
+        if (this.y > this.canvasHeight) this.y = 0;
       }
 
       draw() {
@@ -71,7 +75,7 @@ export function ParticleBackground() {
     const particles: Particle[] = [];
 
     for (let i = 0; i < particleCount; i++) {
-      particles.push(new Particle());
+      particles.push(new Particle(canvas.width, canvas.height));
     }
 
     // Animation loop
