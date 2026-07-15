@@ -41,7 +41,7 @@ export async function getAchievements(): Promise<Achievement[]> {
 }
 
 export async function addAchievement(
-  data: AchievementFormData
+  data: AchievementFormData,
 ): Promise<Achievement> {
   try {
     const now = new Date().toISOString();
@@ -55,7 +55,7 @@ export async function addAchievement(
 
     const docRef = await addDoc(
       collection(db, ACHIEVEMENTS_COLLECTION),
-      achievementData
+      achievementData,
     );
     return { id: docRef.id, ...achievementData };
   } catch (error) {
@@ -66,7 +66,7 @@ export async function addAchievement(
 
 export async function updateAchievement(
   id: string,
-  data: Partial<AchievementFormData>
+  data: Partial<AchievementFormData>,
 ): Promise<void> {
   try {
     const docRef = doc(db, ACHIEVEMENTS_COLLECTION, id);
@@ -151,13 +151,18 @@ export async function getGeneralSettings(): Promise<GeneralSettings | null> {
           }
           return item;
         })
-        .filter((item: any) => item && typeof item === "object" && typeof item.name === "string");
+        .filter(
+          (item: any) =>
+            item && typeof item === "object" && typeof item.name === "string",
+        );
       return {
         availableForWork: data.availableForWork || false,
         techStack: normalizedTechStack,
         locationName: data.locationName || "Jaipur, India",
-        locationLat: typeof data.locationLat === "number" ? data.locationLat : 26.9124,
-        locationLng: typeof data.locationLng === "number" ? data.locationLng : 75.7873,
+        locationLat:
+          typeof data.locationLat === "number" ? data.locationLat : 26.9124,
+        locationLng:
+          typeof data.locationLng === "number" ? data.locationLng : 75.7873,
         timezone: data.timezone || "Asia/Kolkata",
       };
     }
@@ -174,13 +179,23 @@ export async function updateGeneralSettings(
   locationName?: string,
   locationLat?: number,
   locationLng?: number,
-  timezone?: string
+  timezone?: string,
 ): Promise<void> {
   try {
     const docRef = doc(db, SITE_CONFIG_COLLECTION, "general");
+
+    // Clean tech stack to remove undefined iconSvg values
+    const cleanedTechStack = techStack.map((item) => {
+      const cleaned: { name: string; iconSvg?: string } = { name: item.name };
+      if (item.iconSvg) {
+        cleaned.iconSvg = item.iconSvg;
+      }
+      return cleaned;
+    });
+
     await setDoc(docRef, {
       availableForWork,
-      techStack,
+      techStack: cleanedTechStack,
       locationName: locationName || "Jaipur, India",
       locationLat: typeof locationLat === "number" ? locationLat : 26.9124,
       locationLng: typeof locationLng === "number" ? locationLng : 75.7873,

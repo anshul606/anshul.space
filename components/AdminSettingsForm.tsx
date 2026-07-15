@@ -1,7 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getGeneralSettings, updateGeneralSettings } from "@/lib/achievements-firestore";
+import {
+  getGeneralSettings,
+  updateGeneralSettings,
+} from "@/lib/achievements-firestore";
 
 interface TechStackItem {
   name: string;
@@ -20,7 +23,7 @@ const PREDEFINED_TECH = [
   "Three.js",
   "Git / GitHub",
   "HTML 5",
-  "CSS 3"
+  "CSS 3",
 ];
 
 const inputClasses =
@@ -39,6 +42,7 @@ export default function AdminSettingsForm() {
   const [timezone, setTimezone] = useState("Asia/Kolkata");
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [message, setMessage] = useState<{
     type: "success" | "error";
     text: string;
@@ -50,13 +54,15 @@ export default function AdminSettingsForm() {
         const settings = await getGeneralSettings();
         if (settings) {
           setAvailableForWork(settings.availableForWork);
-          setTechStack(settings.techStack || PREDEFINED_TECH.map(name => ({ name })));
+          setTechStack(
+            settings.techStack || PREDEFINED_TECH.map((name) => ({ name })),
+          );
           setLocationName(settings.locationName || "Jaipur, India");
           setLocationLat(String(settings.locationLat ?? "26.9124"));
           setLocationLng(String(settings.locationLng ?? "75.7873"));
           setTimezone(settings.timezone || "Asia/Kolkata");
         } else {
-          setTechStack(PREDEFINED_TECH.map(name => ({ name })));
+          setTechStack(PREDEFINED_TECH.map((name) => ({ name })));
         }
       } catch (err) {
         console.error("Failed to fetch settings:", err);
@@ -75,18 +81,32 @@ export default function AdminSettingsForm() {
     const lng = parseFloat(locationLng);
 
     if (isNaN(lat) || lat < -90 || lat > 90) {
-      setMessage({ type: "error", text: "Latitude must be a valid number between -90 and 90." });
+      setMessage({
+        type: "error",
+        text: "Latitude must be a valid number between -90 and 90.",
+      });
       setIsSaving(false);
       return;
     }
     if (isNaN(lng) || lng < -180 || lng > 180) {
-      setMessage({ type: "error", text: "Longitude must be a valid number between -180 and 180." });
+      setMessage({
+        type: "error",
+        text: "Longitude must be a valid number between -180 and 180.",
+      });
       setIsSaving(false);
       return;
     }
 
     try {
-      await updateGeneralSettings(availableForWork, techStack, locationName, lat, lng, timezone);
+      await updateGeneralSettings(
+        availableForWork,
+        techStack,
+        locationName,
+        lat,
+        lng,
+        timezone,
+      );
+      setHasUnsavedChanges(false);
       setMessage({ type: "success", text: "Settings saved successfully!" });
     } catch (err) {
       console.error("Failed to update settings:", err);
@@ -99,24 +119,37 @@ export default function AdminSettingsForm() {
   const handleAddTech = (name: string, iconSvg?: string) => {
     const trimmedName = name.trim();
     if (!trimmedName) return;
-    if (techStack.some(t => t.name.toLowerCase() === trimmedName.toLowerCase())) {
-      setMessage({ type: "error", text: `"${trimmedName}" is already in your tech stack` });
-      return;
-    }
-    
-    // Quick sanitization check on SVG if provided
-    let svgToSave = iconSvg?.trim() || "";
-    if (svgToSave && !svgToSave.toLowerCase().startsWith("<svg")) {
-      setMessage({ type: "error", text: "Invalid custom icon. Must be a valid SVG string starting with '<svg'" });
+    if (
+      techStack.some((t) => t.name.toLowerCase() === trimmedName.toLowerCase())
+    ) {
+      setMessage({
+        type: "error",
+        text: `"${trimmedName}" is already in your tech stack`,
+      });
       return;
     }
 
-    setTechStack(prev => [...prev, { name: trimmedName, iconSvg: svgToSave || undefined }]);
+    // Quick sanitization check on SVG if provided
+    let svgToSave = iconSvg?.trim() || "";
+    if (svgToSave && !svgToSave.toLowerCase().startsWith("<svg")) {
+      setMessage({
+        type: "error",
+        text: "Invalid custom icon. Must be a valid SVG string starting with '<svg'",
+      });
+      return;
+    }
+
+    setTechStack((prev) => [
+      ...prev,
+      { name: trimmedName, iconSvg: svgToSave || undefined },
+    ]);
+    setHasUnsavedChanges(true);
     setMessage(null);
   };
 
   const handleRemoveTech = (index: number) => {
-    setTechStack(prev => prev.filter((_, idx) => idx !== index));
+    setTechStack((prev) => prev.filter((_, idx) => idx !== index));
+    setHasUnsavedChanges(true);
     setMessage(null);
   };
 
@@ -138,7 +171,10 @@ export default function AdminSettingsForm() {
 
   // Predefined options that are not currently active
   const inactivePredefined = PREDEFINED_TECH.filter(
-    name => !techStack.some(active => active.name.toLowerCase() === name.toLowerCase())
+    (name) =>
+      !techStack.some(
+        (active) => active.name.toLowerCase() === name.toLowerCase(),
+      ),
   );
 
   return (
@@ -150,7 +186,8 @@ export default function AdminSettingsForm() {
             General Portfolio Settings
           </h3>
           <p className="text-[#6b7280] text-xs">
-            Toggle options to configure the status indicator shown on your portfolio.
+            Toggle options to configure the status indicator shown on your
+            portfolio.
           </p>
         </div>
 
@@ -161,13 +198,18 @@ export default function AdminSettingsForm() {
             checked={availableForWork}
             onChange={(e) => {
               setAvailableForWork(e.target.checked);
+              setHasUnsavedChanges(true);
               setMessage(null);
             }}
             className="w-5 h-5 accent-[#06b6d4] rounded bg-[#1a1a1a] border border-[rgba(255,255,255,0.12)] focus:ring-1 focus:ring-[#06b6d4] cursor-pointer"
             disabled={isSaving}
           />
-          <label htmlFor="available-for-work" className="text-sm font-medium text-white cursor-pointer select-none">
-            Available for Work (shows glowing green indicator next to role on homepage)
+          <label
+            htmlFor="available-for-work"
+            className="text-sm font-medium text-white cursor-pointer select-none"
+          >
+            Available for Work (shows glowing green indicator next to role on
+            homepage)
           </label>
         </div>
       </div>
@@ -179,58 +221,91 @@ export default function AdminSettingsForm() {
             Location & Map Settings
           </h3>
           <p className="text-[#6b7280] text-xs">
-            Configure your location name, coordinates, and timezone for the live Map component on your homepage.
+            Configure your location name, coordinates, and timezone for the live
+            Map component on your homepage.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1 flex flex-col">
-            <label htmlFor="location-name" className="text-xs font-semibold text-[#a1a1a1]">Location Name</label>
+            <label
+              htmlFor="location-name"
+              className="text-xs font-semibold text-[#a1a1a1]"
+            >
+              Location Name
+            </label>
             <input
               type="text"
               id="location-name"
               placeholder="e.g. Jaipur, India"
               value={locationName}
-              onChange={e => { setLocationName(e.target.value); setMessage(null); }}
+              onChange={(e) => {
+                setLocationName(e.target.value);
+                setMessage(null);
+              }}
               className={inputClasses}
               disabled={isSaving}
             />
           </div>
 
           <div className="space-y-1 flex flex-col">
-            <label htmlFor="timezone-name" className="text-xs font-semibold text-[#a1a1a1]">Timezone ID</label>
+            <label
+              htmlFor="timezone-name"
+              className="text-xs font-semibold text-[#a1a1a1]"
+            >
+              Timezone ID
+            </label>
             <input
               type="text"
               id="timezone-name"
               placeholder="e.g. Asia/Kolkata"
               value={timezone}
-              onChange={e => { setTimezone(e.target.value); setMessage(null); }}
+              onChange={(e) => {
+                setTimezone(e.target.value);
+                setMessage(null);
+              }}
               className={inputClasses}
               disabled={isSaving}
             />
           </div>
 
           <div className="space-y-1 flex flex-col">
-            <label htmlFor="location-lat" className="text-xs font-semibold text-[#a1a1a1]">Latitude</label>
+            <label
+              htmlFor="location-lat"
+              className="text-xs font-semibold text-[#a1a1a1]"
+            >
+              Latitude
+            </label>
             <input
               type="text"
               id="location-lat"
               placeholder="e.g. 26.9124"
               value={locationLat}
-              onChange={e => { setLocationLat(e.target.value); setMessage(null); }}
+              onChange={(e) => {
+                setLocationLat(e.target.value);
+                setMessage(null);
+              }}
               className={inputClasses}
               disabled={isSaving}
             />
           </div>
 
           <div className="space-y-1 flex flex-col">
-            <label htmlFor="location-lng" className="text-xs font-semibold text-[#a1a1a1]">Longitude</label>
+            <label
+              htmlFor="location-lng"
+              className="text-xs font-semibold text-[#a1a1a1]"
+            >
+              Longitude
+            </label>
             <input
               type="text"
               id="location-lng"
               placeholder="e.g. 75.7873"
               value={locationLng}
-              onChange={e => { setLocationLng(e.target.value); setMessage(null); }}
+              onChange={(e) => {
+                setLocationLng(e.target.value);
+                setMessage(null);
+              }}
               className={inputClasses}
               disabled={isSaving}
             />
@@ -245,15 +320,20 @@ export default function AdminSettingsForm() {
             Tech Stack Cards
           </h3>
           <p className="text-[#6b7280] text-xs">
-            Configure the tech stack cards displayed on your homepage. You can add or remove items below.
+            Configure the tech stack cards displayed on your homepage. You can
+            add or remove items below.
           </p>
         </div>
 
         {/* Active Tech Stack List */}
         <div className="space-y-2">
-          <label className="block text-xs font-semibold text-[#a1a1a1]">Active Tech Stack ({techStack.length})</label>
+          <label className="block text-xs font-semibold text-[#a1a1a1]">
+            Active Tech Stack ({techStack.length})
+          </label>
           {techStack.length === 0 ? (
-            <p className="text-[#6b7280] text-sm italic bg-[#1a1a1a]/30 p-4 rounded-lg border border-dashed border-white/5">No tech stacks added. Default list will be used on homepage.</p>
+            <p className="text-[#6b7280] text-sm italic bg-[#1a1a1a]/30 p-4 rounded-lg border border-dashed border-white/5">
+              No tech stacks added. Default list will be used on homepage.
+            </p>
           ) : (
             <div className="flex flex-wrap gap-2 bg-[#1a1a1a]/30 p-4 border border-[rgba(255,255,255,0.06)] rounded-lg">
               {techStack.map((tech, index) => (
@@ -263,7 +343,10 @@ export default function AdminSettingsForm() {
                 >
                   <span className="flex items-center gap-1.5">
                     {tech.iconSvg && (
-                      <span className="w-3.5 h-3.5 flex items-center justify-center opacity-65" dangerouslySetInnerHTML={{ __html: tech.iconSvg }} />
+                      <span
+                        className="w-3.5 h-3.5 flex items-center justify-center opacity-65"
+                        dangerouslySetInnerHTML={{ __html: tech.iconSvg }}
+                      />
                     )}
                     <span>{tech.name}</span>
                   </span>
@@ -284,12 +367,16 @@ export default function AdminSettingsForm() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
           {/* Predefined Add Grid */}
           <div className="space-y-2">
-            <label className="block text-xs font-semibold text-[#a1a1a1]">Quick Add Predefined</label>
+            <label className="block text-xs font-semibold text-[#a1a1a1]">
+              Quick Add Predefined
+            </label>
             {inactivePredefined.length === 0 ? (
-              <p className="text-[#6b7280] text-xs italic">All predefined technologies are active.</p>
+              <p className="text-[#6b7280] text-xs italic">
+                All predefined technologies are active.
+              </p>
             ) : (
               <div className="flex flex-wrap gap-1.5 max-h-[180px] overflow-y-auto pr-1">
-                {inactivePredefined.map(name => (
+                {inactivePredefined.map((name) => (
                   <button
                     key={name}
                     type="button"
@@ -305,27 +392,39 @@ export default function AdminSettingsForm() {
 
           {/* Custom Add Form */}
           <div className="space-y-4 bg-[#1a1a1a]/20 p-4 border border-[rgba(255,255,255,0.06)] rounded-lg">
-            <h4 className="text-xs font-semibold text-[#a1a1a1]">Add Custom Tech Stack</h4>
+            <h4 className="text-xs font-semibold text-[#a1a1a1]">
+              Add Custom Tech Stack
+            </h4>
             <form onSubmit={handleAddCustom} className="space-y-3">
               <div className="space-y-1">
-                <label htmlFor="custom-tech-name" className="block text-[10px] text-[#6b7280] uppercase tracking-wider">Technology Name</label>
+                <label
+                  htmlFor="custom-tech-name"
+                  className="block text-[10px] text-[#6b7280] uppercase tracking-wider"
+                >
+                  Technology Name
+                </label>
                 <input
                   type="text"
                   id="custom-tech-name"
                   placeholder="e.g. Docker, Python, Go"
                   value={customTech}
-                  onChange={e => setCustomTech(e.target.value)}
+                  onChange={(e) => setCustomTech(e.target.value)}
                   className={`${inputClasses} w-full`}
                   required
                 />
               </div>
               <div className="space-y-1">
-                <label htmlFor="custom-tech-svg" className="block text-[10px] text-[#6b7280] uppercase tracking-wider">Custom SVG Icon Code (Optional)</label>
+                <label
+                  htmlFor="custom-tech-svg"
+                  className="block text-[10px] text-[#6b7280] uppercase tracking-wider"
+                >
+                  Custom SVG Icon Code (Optional)
+                </label>
                 <textarea
                   id="custom-tech-svg"
                   placeholder="<svg ...>...</svg>"
                   value={customSvg}
-                  onChange={e => setCustomSvg(e.target.value)}
+                  onChange={(e) => setCustomSvg(e.target.value)}
                   className={`${textAreaClasses} w-full`}
                   rows={4}
                 />
@@ -358,9 +457,17 @@ export default function AdminSettingsForm() {
         <button
           onClick={handleSave}
           disabled={isSaving}
-          className="px-6 py-3 bg-[#06b6d4] text-black font-medium rounded-lg hover:bg-[#22d3ee] transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+          className={`px-6 py-3 font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${
+            hasUnsavedChanges
+              ? "bg-[#ff3344] text-white hover:bg-[#ff5566] animate-pulse"
+              : "bg-[#06b6d4] text-black hover:bg-[#22d3ee]"
+          }`}
         >
-          {isSaving ? "Saving..." : "Save Settings"}
+          {isSaving
+            ? "Saving..."
+            : hasUnsavedChanges
+              ? "Save Changes ●"
+              : "Save Settings"}
         </button>
       </div>
     </div>
