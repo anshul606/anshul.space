@@ -137,12 +137,12 @@ export default function HireMePage() {
                   <div>
                     <h3 className="font-medium text-white mb-1">LinkedIn</h3>
                     <a
-                      href="https://www.linkedin.com/in/anshulbansal24"
+                      href="https://www.linkedin.com/in/anshulbansalxd"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-accent hover:underline text-sm"
                     >
-                      linkedin.com/in/anshulbansal24
+                      linkedin.com/in/anshulbansalxd
                     </a>
                   </div>
                 </div>
