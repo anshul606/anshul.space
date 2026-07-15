@@ -94,3 +94,92 @@ export function validateProjectForm(data: ProjectFormData): ValidationErrors {
 export function hasValidationErrors(errors: ValidationErrors): boolean {
   return Object.keys(errors).length > 0;
 }
+
+/**
+ * Timeline validation errors interface
+ */
+export interface TimelineValidationErrors {
+  role?: string;
+  company?: string;
+  employmentType?: string;
+  locationType?: string;
+  location?: string;
+  description?: string;
+  startDate?: string;
+  endDate?: string;
+  logoUrl?: string;
+}
+
+/**
+ * Validates a timeline form and returns validation errors.
+ * Returns an empty object if all validations pass.
+ */
+export function validateTimelineForm(data: {
+  role: string;
+  company: string;
+  employmentType: string;
+  locationType: string;
+  location: string;
+  description: string;
+  startDate: string;
+  endDate?: string;
+  logoUrl?: string;
+}): TimelineValidationErrors {
+  const errors: TimelineValidationErrors = {};
+
+  // Required field: role (min 1 character)
+  if (isEmptyOrWhitespace(data.role)) {
+    errors.role = "This field is required";
+  }
+
+  // Required field: company (min 1 character)
+  if (isEmptyOrWhitespace(data.company)) {
+    errors.company = "This field is required";
+  }
+
+  // Required field: employmentType
+  if (isEmptyOrWhitespace(data.employmentType)) {
+    errors.employmentType = "This field is required";
+  }
+
+  // Required field: locationType
+  if (isEmptyOrWhitespace(data.locationType)) {
+    errors.locationType = "This field is required";
+  }
+
+  // Required field: location
+  if (isEmptyOrWhitespace(data.location)) {
+    errors.location = "This field is required";
+  }
+
+  // Required field: description (min 1 character)
+  if (isEmptyOrWhitespace(data.description)) {
+    errors.description = "This field is required";
+  }
+
+  // Required field: startDate
+  if (!data.startDate || isEmptyOrWhitespace(data.startDate)) {
+    errors.startDate = "This field is required";
+  }
+
+  // logoUrl is optional - validate format if provided
+  if (data.logoUrl && !isEmptyOrWhitespace(data.logoUrl)) {
+    // Allow SVG code or URL
+    if (!data.logoUrl.includes("<svg") && !isValidUrl(data.logoUrl)) {
+      errors.logoUrl = "Please enter a valid URL or SVG code";
+    }
+  }
+
+  // endDate is optional - no validation needed
+
+  return errors;
+}
+
+/**
+ * Checks if the timeline form has any validation errors.
+ */
+export function hasTimelineValidationErrors(
+  errors: TimelineValidationErrors,
+): boolean {
+  return Object.keys(errors).length > 0;
+}

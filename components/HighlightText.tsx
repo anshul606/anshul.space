@@ -91,7 +91,7 @@ export function HighlightText({ text, highlights }: HighlightTextProps) {
 
   return (
     <p
-      className="font-sans text-text-secondary text-base md:text-lg leading-relaxed cursor-none"
+      className="font-sans text-text-secondary text-base md:text-lg leading-relaxed"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

@@ -11,6 +11,11 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
+    // Timeline collection rules
+    match /timeline/{entry} {
+      allow read, write: if true;
+    }
+
     // siteConfig collection rules (e.g. siteConfig/resume)
     match /siteConfig/{configId} {
       allow read, write: if true;

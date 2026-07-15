@@ -4,6 +4,7 @@ import { useProjects } from "@/context/ProjectContext";
 import { ImageWithFallback } from "@/components/ImageWithFallback";
 import { FilmGrain } from "@/components/FilmGrain";
 import { HighlightText } from "@/components/HighlightText";
+import { Timeline } from "@/components/Timeline";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
@@ -319,7 +320,7 @@ function TechStackGrid({ activeTech }: { activeTech?: TechStackItem[] }) {
         return (
           <div
             key={tech.name}
-            className="group flex flex-col items-center justify-center p-3.5 bg-white/[0.01] border border-white/8 rounded-lg hover:border-accent/40 hover:bg-white/[0.02] hover:-translate-y-0.5 transition-all duration-300 select-none cursor-none"
+            className="group flex flex-col items-center justify-center p-3.5 bg-white/[0.01] border border-white/8 rounded-lg hover:border-accent/40 hover:bg-white/[0.02] hover:-translate-y-0.5 transition-all duration-300 select-none"
           >
             <div className="mb-2 transform group-hover:scale-105 transition-transform duration-300">
               {icon}
@@ -411,7 +412,7 @@ export default function Home() {
                     href={link.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 bg-white/[0.02] border border-white/8 text-text-secondary hover:text-accent hover:border-accent/40 hover:bg-accent-muted transition-all duration-200 cursor-none"
+                    className="p-2.5 bg-white/[0.02] border border-white/8 text-text-secondary hover:text-accent hover:border-accent/40 hover:bg-accent-muted transition-all duration-200"
                     aria-label={link.name}
                   >
                     {link.icon}
@@ -428,7 +429,7 @@ export default function Home() {
                     .getElementById("projects")
                     ?.scrollIntoView({ behavior: "smooth" });
                 }}
-                className="relative group border border-white/10 p-2 bg-white/[0.01] overflow-hidden w-full max-w-[220px] aspect-square text-left cursor-none focus:outline-none"
+                className="relative group border border-white/10 p-2 bg-white/[0.01] overflow-hidden w-full max-w-[220px] aspect-square text-left focus:outline-none"
                 data-cursor="view"
               >
                 <div className="absolute inset-0 border border-white/5 pointer-events-none m-2 group-hover:border-accent/40 transition-colors duration-500" />
@@ -458,10 +459,10 @@ export default function Home() {
             </div>
           </section>
 
-          {/* ── 02 / BACKGROUND & EDUCATION ── */}
+          {/* ── 02 / BACKGROUND & EXPERIENCE ── */}
           <section id="background" className="mb-24 md:mb-36">
             <div className="font-mono text-xs text-text-muted mb-6 tracking-wider uppercase">
-              [ 02 / BACKGROUND & EDUCATION ]
+              [ 02 / BACKGROUND & EXPERIENCE ]
             </div>
 
             <div className="border border-white/8 bg-white/[0.01] overflow-hidden">
@@ -473,7 +474,7 @@ export default function Home() {
               />
               <div className="p-8 space-y-4">
                 <h3 className="font-display text-xl font-bold uppercase text-text-primary">
-                  BACKGROUND & EDUCATION
+                  BACKGROUND & EXPERIENCE
                 </h3>
                 <p className="text-sm text-text-secondary leading-relaxed max-w-4xl">
                   B.Tech in Computer Science & Engineering student at LNMIIT
@@ -483,27 +484,8 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Bottom Row Cell - GDG & LNMIIT Focus */}
-              <div className="p-8 border-t border-white/8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 bg-white/[0.005]">
-                <div className="flex items-center gap-3">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-accent"></span>
-                  </span>
-                  <span className="font-mono text-xs text-text-secondary uppercase tracking-widest font-semibold">
-                    Current Active Engagement
-                  </span>
-                </div>
-
-                <div className="flex flex-wrap gap-3">
-                  <span className="font-mono text-xs border border-white/10 px-3 py-1.5 bg-white/[0.02] text-[#f5f5f7] rounded-md tracking-wider uppercase select-none hover:border-accent/40 transition-colors">
-                    GDG Jaipur Organizer
-                  </span>
-                  <span className="font-mono text-xs border border-white/10 px-3 py-1.5 bg-white/[0.02] text-[#f5f5f7] rounded-md tracking-wider uppercase select-none hover:border-accent/40 transition-colors">
-                    GDG LNMIIT Active Member
-                  </span>
-                </div>
-              </div>
+              {/* Timeline Component */}
+              <Timeline />
             </div>
           </section>
 
@@ -533,7 +515,7 @@ export default function Home() {
                     <Link
                       key={project.id}
                       href={`/${project.slug}`}
-                      className={`group flex flex-col justify-between border border-white/8 bg-white/[0.01] hover:border-accent/30 transition-all duration-300 cursor-none ${
+                      className={`group flex flex-col justify-between border border-white/8 bg-white/[0.01] hover:border-accent/30 transition-all duration-300 ${
                         isLarge ? "md:col-span-2" : ""
                       }`}
                       data-cursor="view"

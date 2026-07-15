@@ -14,9 +14,9 @@ export function CustomCursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // Smooth spring physics for the trailing ring (tuned for snappier follow speed)
-  const ringX = useSpring(cursorX, { stiffness: 380, damping: 28, mass: 0.4 });
-  const ringY = useSpring(cursorY, { stiffness: 380, damping: 28, mass: 0.4 });
+  // Smooth spring physics for the trailing ring (faster response)
+  const ringX = useSpring(cursorX, { stiffness: 600, damping: 30, mass: 0.2 });
+  const ringY = useSpring(cursorY, { stiffness: 600, damping: 30, mass: 0.2 });
 
   useEffect(() => {
     // Detect touch device (hide custom cursor on iPads/phones)
@@ -85,69 +85,105 @@ export function CustomCursor() {
 
   if (isTouchDevice || !isVisible) return null;
 
-  // Animation values for the inner dot and trailing ring based on hover state
+  // Animation values - tech/crosshair inspired design
   const ringVariants = {
     default: {
-      width: 40,
-      height: 40,
+      width: 32,
+      height: 32,
       backgroundColor: "rgba(0, 0, 0, 0)",
-      borderColor: "rgba(255, 51, 68, 0.4)",
+      borderColor: "rgba(255, 51, 68, 0.6)",
     },
     pointer: {
-      width: 60,
-      height: 60,
-      backgroundColor: "rgba(255, 51, 68, 0.05)",
-      borderColor: "rgba(255, 51, 68, 0.8)",
+      width: 48,
+      height: 48,
+      backgroundColor: "rgba(255, 51, 68, 0.08)",
+      borderColor: "rgba(255, 51, 68, 1)",
     },
     play: {
-      width: 80,
-      height: 80,
-      backgroundColor: "rgba(255, 51, 68, 0.95)",
+      width: 64,
+      height: 64,
+      backgroundColor: "rgba(255, 51, 68, 1)",
       borderColor: "rgba(255, 51, 68, 1)",
     },
     view: {
-      width: 80,
-      height: 80,
-      backgroundColor: "rgba(255, 255, 255, 0.95)",
+      width: 64,
+      height: 64,
+      backgroundColor: "rgba(255, 255, 255, 1)",
       borderColor: "rgba(255, 255, 255, 1)",
     },
   };
 
   const dotVariants = {
     default: { scale: 1, backgroundColor: "#ff3344" },
-    pointer: { scale: 0.5, backgroundColor: "#ff3344" },
-    play: { scale: 0, backgroundColor: "#ffffff" },
+    pointer: { scale: 0, backgroundColor: "#ff3344" },
+    play: { scale: 0, backgroundColor: "#000000" },
     view: { scale: 0, backgroundColor: "#000000" },
   };
 
   return (
     <>
-      {/* Lag-free exact tracking inner dot */}
+      {/* Center dot - sharp square for tech aesthetic */}
       <motion.div
-        className="fixed top-0 left-0 w-1.5 h-1.5 rounded-full pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2 mix-blend-screen"
+        className="fixed top-0 left-0 w-[3px] h-[3px] rounded-none pointer-events-none z-[9999] -translate-x-1/2 -translate-y-1/2"
         style={{ x: cursorX, y: cursorY }}
         animate={cursorType}
         variants={dotVariants}
         transition={{ duration: 0.15 }}
       />
 
-      {/* Trailing smooth physics ring */}
+      {/* Crosshair lines - only visible on default state */}
+      {cursorType === "default" && (
+        <>
+          {/* Horizontal line */}
+          <motion.div
+            className="fixed top-0 left-0 w-4 h-[1px] bg-accent/40 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2"
+            style={{ x: cursorX, y: cursorY }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ duration: 0.2 }}
+          />
+          {/* Vertical line */}
+          <motion.div
+            className="fixed top-0 left-0 w-[1px] h-4 bg-accent/40 pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2"
+            style={{ x: cursorX, y: cursorY }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.6 }}
+            transition={{ duration: 0.2 }}
+          />
+        </>
+      )}
+
+      {/* Outer ring - square with rounded corners for tech aesthetic */}
       <motion.div
-        className="fixed top-0 left-0 rounded-full border pointer-events-none z-[9999] flex items-center justify-center -translate-x-1/2 -translate-y-1/2 overflow-hidden"
-        style={{ x: ringX, y: ringY }}
+        className="fixed top-0 left-0 border pointer-events-none z-[9999] flex items-center justify-center -translate-x-1/2 -translate-y-1/2 overflow-hidden"
+        style={{ x: ringX, y: ringY, borderRadius: "4px" }}
         animate={cursorType}
         variants={ringVariants}
         transition={{ type: "spring", stiffness: 350, damping: 28 }}
       >
-        {/* Monospace overlay labels inside the cursor */}
+        {/* Corner brackets for tech feel - only on default */}
+        {cursorType === "default" && (
+          <>
+            {/* Top-left corner */}
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/60" />
+            {/* Top-right corner */}
+            <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent/60" />
+            {/* Bottom-left corner */}
+            <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent/60" />
+            {/* Bottom-right corner */}
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent/60" />
+          </>
+        )}
+
+        {/* Labels for play/view states */}
         {cursorType === "play" && (
-          <span className="font-mono text-[9px] font-bold text-black tracking-wider uppercase select-none">
-            Play
+          <span className="font-mono text-[8px] font-bold text-black tracking-widest uppercase select-none">
+            PLAY
           </span>
         )}
         {cursorType === "view" && (
-          <span className="font-mono text-[9px] font-bold text-black tracking-wider uppercase select-none">
-            View
+          <span className="font-mono text-[8px] font-bold text-black tracking-widest uppercase select-none">
+            VIEW
           </span>
         )}
       </motion.div>

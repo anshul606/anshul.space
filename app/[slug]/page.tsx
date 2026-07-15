@@ -66,7 +66,7 @@ export default function ProjectPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 pt-8">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 font-mono text-xs text-text-secondary hover:text-accent transition-colors cursor-none"
+            className="inline-flex items-center gap-2 font-mono text-xs text-text-secondary hover:text-accent transition-colors"
           >
             ← [ BACK TO JOURNAL ]
           </Link>
@@ -97,7 +97,7 @@ export default function ProjectPage() {
 
             {/* Large Image Cover with Zine Border */}
             <div 
-              className="relative aspect-video bg-black border border-white/10 overflow-hidden group cursor-none"
+              className="relative aspect-video bg-black border border-white/10 overflow-hidden group"
               data-cursor="view"
               onClick={() => {
                 window.open(project.websiteUrl, "_blank");
@@ -185,7 +185,7 @@ export default function ProjectPage() {
                   href={project.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full text-center bg-accent hover:bg-accent-hover text-black font-mono text-xs font-bold py-3 uppercase transition-colors cursor-none"
+                  className="w-full text-center bg-accent hover:bg-accent-hover text-black font-mono text-xs font-bold py-3 uppercase transition-colors"
                 >
                   Visit Website
                 </a>
@@ -195,7 +195,7 @@ export default function ProjectPage() {
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full text-center border border-white/10 hover:border-white/20 text-text-secondary hover:text-white font-mono text-xs font-bold py-3 uppercase transition-all cursor-none"
+                    className="w-full text-center border border-white/10 hover:border-white/20 text-text-secondary hover:text-white font-mono text-xs font-bold py-3 uppercase transition-all"
                   >
                     View Source
                   </a>

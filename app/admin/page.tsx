@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Project, ProjectFormData } from "@/types/project";
 import { Achievement, AchievementFormData } from "@/types/achievement";
+import { TimelineEntry, TimelineFormData } from "@/types/timeline";
 import { useProjects } from "@/context/ProjectContext";
 import {
   getAchievements,
@@ -11,17 +12,30 @@ import {
   updateAchievement as updateAchievementFirestore,
   deleteAchievement as deleteAchievementFirestore,
 } from "@/lib/achievements-firestore";
+import {
+  getTimelineEntries,
+  addTimelineEntry,
+  updateTimelineEntry,
+  deleteTimelineEntry,
+} from "@/lib/timeline-firestore";
 import AdminForm from "@/components/AdminForm";
 import AdminProjectList from "@/components/AdminProjectList";
 import AdminResumeForm from "@/components/AdminResumeForm";
 import AdminAchievementForm from "@/components/AdminAchievementForm";
 import AdminAchievementList from "@/components/AdminAchievementList";
+import AdminTimelineForm from "@/components/AdminTimelineForm";
+import AdminTimelineList from "@/components/AdminTimelineList";
 import AdminSettingsForm from "@/components/AdminSettingsForm";
 import { PageTransition } from "@/components/PageTransition";
 import { LoadingSpinner } from "@/components/LoadingSpinner";
 import { hasAdminAccess } from "@/lib/admin-access";
 
-type AdminTab = "projects" | "resume" | "achievements" | "settings";
+type AdminTab =
+  | "projects"
+  | "resume"
+  | "achievements"
+  | "timeline"
+  | "settings";
 
 export default function AdminPage() {
   const router = useRouter();
@@ -46,13 +60,23 @@ export default function AdminPage() {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [achievementsLoading, setAchievementsLoading] = useState(true);
   const [achievementsError, setAchievementsError] = useState<string | null>(
-    null
+    null,
   );
   const [editingAchievement, setEditingAchievement] =
     useState<Achievement | null>(null);
   const [isAchievementFormVisible, setIsAchievementFormVisible] =
     useState(false);
   const [isAchievementSubmitting, setIsAchievementSubmitting] = useState(false);
+
+  // Timeline state
+  const [timelineEntries, setTimelineEntries] = useState<TimelineEntry[]>([]);
+  const [timelineLoading, setTimelineLoading] = useState(true);
+  const [timelineError, setTimelineError] = useState<string | null>(null);
+  const [editingTimeline, setEditingTimeline] = useState<TimelineEntry | null>(
+    null,
+  );
+  const [isTimelineFormVisible, setIsTimelineFormVisible] = useState(false);
+  const [isTimelineSubmitting, setIsTimelineSubmitting] = useState(false);
 
   // Check admin access on mount
   useEffect(() => {
@@ -78,7 +102,7 @@ export default function AdminPage() {
     } catch (err) {
       console.error("Failed to fetch achievements:", err);
       setAchievementsError(
-        err instanceof Error ? err.message : "Failed to fetch achievements"
+        err instanceof Error ? err.message : "Failed to fetch achievements",
       );
     } finally {
       setAchievementsLoading(false);
@@ -90,6 +114,29 @@ export default function AdminPage() {
       fetchAchievements();
     }
   }, [isAuthorized, activeTab, fetchAchievements]);
+
+  // Fetch timeline entries
+  const fetchTimelineEntries = useCallback(async () => {
+    setTimelineLoading(true);
+    setTimelineError(null);
+    try {
+      const data = await getTimelineEntries();
+      setTimelineEntries(data);
+    } catch (err) {
+      console.error("Failed to fetch timeline entries:", err);
+      setTimelineError(
+        err instanceof Error ? err.message : "Failed to fetch timeline entries",
+      );
+    } finally {
+      setTimelineLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isAuthorized && activeTab === "timeline") {
+      fetchTimelineEntries();
+    }
+  }, [isAuthorized, activeTab, fetchTimelineEntries]);
 
   // ── Project handlers ─────────────────────────────────────────
   const handleAddClick = () => {
@@ -167,6 +214,45 @@ export default function AdminPage() {
     setAchievements((prev) => prev.filter((a) => a.id !== id));
   };
 
+  // ── Timeline handlers ────────────────────────────────────────
+  const handleAddTimelineClick = () => {
+    setEditingTimeline(null);
+    setIsTimelineFormVisible(true);
+  };
+
+  const handleEditTimeline = (entry: TimelineEntry) => {
+    setEditingTimeline(entry);
+    setIsTimelineFormVisible(true);
+  };
+
+  const handleCancelTimeline = () => {
+    setEditingTimeline(null);
+    setIsTimelineFormVisible(false);
+  };
+
+  const handleSubmitTimeline = async (data: TimelineFormData) => {
+    setIsTimelineSubmitting(true);
+    try {
+      if (editingTimeline) {
+        await updateTimelineEntry(editingTimeline.id, data);
+      } else {
+        await addTimelineEntry(data);
+      }
+      setEditingTimeline(null);
+      setIsTimelineFormVisible(false);
+      await fetchTimelineEntries();
+    } catch (err) {
+      console.error("Failed to save timeline entry:", err);
+    } finally {
+      setIsTimelineSubmitting(false);
+    }
+  };
+
+  const handleDeleteTimeline = async (id: string) => {
+    await deleteTimelineEntry(id);
+    setTimelineEntries((prev) => prev.filter((t) => t.id !== id));
+  };
+
   // Show loading while checking access
   if (isCheckingAccess) {
     return (
@@ -185,6 +271,7 @@ export default function AdminPage() {
     { key: "projects", label: "Projects" },
     { key: "resume", label: "Resume" },
     { key: "achievements", label: "Achievements" },
+    { key: "timeline", label: "Timeline" },
     { key: "settings", label: "Settings" },
   ];
 
@@ -259,10 +346,7 @@ export default function AdminPage() {
                 </h2>
                 {isLoading ? (
                   <div className="flex items-center justify-center py-12">
-                    <LoadingSpinner
-                      size="md"
-                      message="Loading projects..."
-                    />
+                    <LoadingSpinner size="md" message="Loading projects..." />
                   </div>
                 ) : (
                   <AdminProjectList
@@ -338,6 +422,56 @@ export default function AdminPage() {
             <div className="p-6 bg-[#141414] border border-[rgba(255,255,255,0.06)] rounded-xl">
               <AdminSettingsForm />
             </div>
+          )}
+
+          {/* ── Timeline Tab ──────────────────────────────────── */}
+          {activeTab === "timeline" && (
+            <>
+              {/* Add Button */}
+              <div className="flex justify-end mb-6">
+                {!isTimelineFormVisible && (
+                  <button
+                    onClick={handleAddTimelineClick}
+                    className="px-4 py-2 bg-[#06b6d4] text-black font-medium rounded-lg hover:bg-[#22d3ee] transition-colors"
+                  >
+                    Add Timeline Entry
+                  </button>
+                )}
+              </div>
+
+              {/* Error */}
+              {timelineError && (
+                <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg">
+                  <p className="text-red-400">{timelineError}</p>
+                </div>
+              )}
+
+              {/* Form */}
+              {isTimelineFormVisible && (
+                <div className="mb-8 p-6 bg-[#141414] border border-[rgba(255,255,255,0.06)] rounded-xl">
+                  <AdminTimelineForm
+                    key={editingTimeline?.id ?? "new"}
+                    entry={editingTimeline}
+                    onSubmit={handleSubmitTimeline}
+                    onCancel={handleCancelTimeline}
+                    isSubmitting={isTimelineSubmitting}
+                  />
+                </div>
+              )}
+
+              {/* List */}
+              <div>
+                <h2 className="text-lg font-medium text-white mb-4">
+                  Timeline Entries
+                </h2>
+                <AdminTimelineList
+                  entries={timelineEntries}
+                  onEdit={handleEditTimeline}
+                  onDelete={handleDeleteTimeline}
+                  isLoading={timelineLoading}
+                />
+              </div>
+            </>
           )}
         </div>
       </div>

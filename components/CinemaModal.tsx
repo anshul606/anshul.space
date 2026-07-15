@@ -103,7 +103,7 @@ export function CinemaModal({ isOpen, onClose, videoUrl, title }: CinemaModalPro
               </span>
               <button
                 onClick={onClose}
-                className="text-text-secondary hover:text-accent font-bold transition-colors uppercase flex items-center gap-1 cursor-none"
+                className="text-text-secondary hover:text-accent font-bold transition-colors uppercase flex items-center gap-1"
               >
                 <span>[CLOSE]</span>
               </button>

@@ -115,7 +115,7 @@ export default function Navbar() {
     >
       <div className="navbar-inner">
         {/* Logo - Terminal prompt style with typewriter scroll typing */}
-        <Link href="/" className="navbar-logo-terminal cursor-none">
+        <Link href="/" className="navbar-logo-terminal">
           <span>{displayText}</span>
           <span className="terminal-cursor" />
         </Link>
@@ -128,7 +128,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`navbar-link cursor-none ${active ? "navbar-link-active" : ""}`}
+                className={`navbar-link ${active ? "navbar-link-active" : ""}`}
               >
                 <span className="relative z-10">{link.name}</span>
                 {active && (
@@ -146,7 +146,7 @@ export default function Navbar() {
         {/* Mobile Toggle */}
         <button
           onClick={() => setIsMobileOpen(!isMobileOpen)}
-          className="navbar-mobile-toggle cursor-none"
+          className="navbar-mobile-toggle"
           aria-label="Toggle menu"
         >
           <span className={`navbar-hamburger ${isMobileOpen ? "navbar-hamburger-open" : ""}`}>
